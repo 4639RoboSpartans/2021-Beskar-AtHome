@@ -10,6 +10,7 @@ import static frc.robot.Constants.Buttons;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -20,9 +21,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ManualDriveCmd;
@@ -114,8 +120,8 @@ public class RobotContainer {
 		// () -> m_shroud.setShroud(0), m_shroud));
 		configureButtonBindings();
 		
-		SmartDashboard.putString("DB/String 8", "LEncoderVal: "+m_drive.m_leftEncoder.getDistance());
-		SmartDashboard.putString("DB/String 9", "REncoderVal: "+m_drive.m_rightEncoder.getDistance());
+		//SmartDashboard.putString("DB/String 8", "LEncoderVal: "+m_drive.m_leftEncoder.getDistance());
+		//SmartDashboard.putString("DB/String 9", "REncoderVal: "+m_drive.m_rightEncoder.getDistance());
 	}
 	// if the shroud is set to a position less than 3, then this will increase the
 	// position value by 1, and then return that position.
@@ -201,31 +207,44 @@ public class RobotContainer {
 	}
 	//setting up auton with pathweaver
 	public Command TestAuton(){
-		/*var autoVoltageConstraint = 
+		var autoVoltageConstraint = 
 			new DifferentialDriveVoltageConstraint(
 				Constants.DRIVETRAIN_FEED_FORWARD, 
-					Constants.kDriveKinematics, 10);*/
+					Constants.kDriveKinematics, 10);
 
-		/*TrajectoryConfig config = 
+		TrajectoryConfig config= 
 			new TrajectoryConfig(Constants.MaxSpeed,
 								Constants.MaxAccel)
 									.setKinematics(Constants.kDriveKinematics)
-										.addConstraint(autoVoltageConstraint);*/
+										.addConstraint(autoVoltageConstraint);
 
-		String trajJSON = "paths/Test.wpilib.json";
+		/*String trajJSON = "paths/Test.wpilib.json";
 		Trajectory trajectory = new Trajectory();
 		try{
 			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajJSON);
 			trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 		}catch(IOException ex){
 			DriverStation.reportError("Unable to open traj:"+ trajJSON, ex.getStackTrace());
-		}
+		}*/
+		Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+			// Start at the origin facing the +X direction
+			new Pose2d(0, 0, new Rotation2d(0.0)),
+			// Pass through these two interior waypoints, making an 's' curve path
+			List.of(
+				new Translation2d(1, 1),
+				new Translation2d(2, -1)
+			),
+			// End 3 meters straight ahead of where we started, facing forward
+			new Pose2d(3, 0, new Rotation2d(0.0)),
+			// Pass config
+			config
+		);
 
 		RamseteCommand ramseteCommand = new RamseteCommand(
 			trajectory, 
 			m_drive::getCurrentPose, 
 			new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), 
-			Constants.DRIVETRAIN_FEED_FORWARD, 
+			new SimpleMotorFeedforward(Constants.ks, Constants.kv, Constants.ka), 
 			Constants.kDriveKinematics, 
 			m_drive::getWheelSpeeds, 
 			new PIDController(Constants.kPDriveVel,0,0), 

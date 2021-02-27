@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Constants;
@@ -24,11 +25,11 @@ import command.SubsystemBase;
 
 public class DrivetrainSys extends SubsystemBase {
 	private final WPI_VictorSPX frontLeft, frontRight, backLeft, backRight;
-	private final AHRS navx;
+	public final AHRS navx;
 	private final DifferentialDriveOdometry odometry;
 	private final DifferentialDrive drive;
-	public final Encoder m_leftEncoder = new Encoder(2,3, true);
-	public final Encoder m_rightEncoder = new Encoder(0,1, false);
+	public final Encoder m_leftEncoder = new Encoder(2,3, false);
+	public final Encoder m_rightEncoder = new Encoder(0,1, true);
 	private static final double diameter = 6.00;
 	/*
 	 * private final SlewRateLimiter limiter1 = new SlewRateLimiter(5); private
@@ -72,7 +73,7 @@ public class DrivetrainSys extends SubsystemBase {
 	}
 	public void resetOdometry(Pose2d pose) {
 		resetEncoders();
-		odometry.resetPosition(pose, new Rotation2d());
+		odometry.resetPosition(pose, navx.getRotation2d());
 	  }
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
