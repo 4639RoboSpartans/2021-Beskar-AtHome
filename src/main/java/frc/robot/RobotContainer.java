@@ -8,13 +8,23 @@ package frc.robot;
 
 import static frc.robot.Constants.Buttons;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ManualDriveCmd;
 import frc.robot.commands.PushBallsCmd;
 import frc.robot.commands.SpoolShooterCmd;
@@ -34,6 +44,7 @@ import command.Command;
 import command.ExecuteEndCommand;
 import command.InstantCommand;
 import command.ParallelCommandGroup;
+import command.RamseteCommand;
 import command.WaitCommand;
 
 /**
@@ -199,6 +210,45 @@ public class RobotContainer {
 						.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, 3800),
 								new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));
 	}
+	//setting up auton with pathweaver
+	public Command TestAuton(){
+		var autoVoltageConstraint = 
+			new DifferentialDriveVoltageConstraint(
+				Constants.DRIVETRAIN_FEED_FORWARD, 
+					Constants.kDriveKinematics, 10);
+
+		TrajectoryConfig config = 
+			new TrajectoryConfig(Constants.MaxSpeed,
+								Constants.MaxAccel)
+									.setKinematics(Constants.kDriveKinematics)
+										.addConstraint(autoVoltageConstraint);
+
+		String trajJSON = "paths/Test.wpilib.json";
+		Trajectory trajectory = new Trajectory();
+		try{
+			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajJSON);
+			trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+		}catch(IOException ex){
+			DriverStation.reportError("Unable to open traj:"+ trajJSON, ex.getStackTrace());
+		}
+
+		RamseteCommand ramseteCommand = new RamseteCommand(
+			trajectory, 
+			m_drive::getCurrentPose, 
+			new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), 
+			Constants.DRIVETRAIN_FEED_FORWARD, 
+			Constants.kDriveKinematics, 
+			m_drive::getWheelSpeeds, 
+			new PIDController(Constants.kPDriveVel,0,0), 
+			new PIDController(Constants.kPDriveVel,0,0), 
+			m_drive::tankDriveVolts, 
+			m_drive);
+
+			m_drive.resetOdometry(trajectory.getInitialPose());
+
+			return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
+	}
+
 
 	public void setDriveNeutralMode(NeutralMode mode) {
 		m_drive.setNeutralMode(mode);

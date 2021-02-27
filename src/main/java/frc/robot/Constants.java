@@ -7,6 +7,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -21,9 +22,21 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 public final class Constants {
 	public static final String TURRET_CAMERA_NAME = "";
 	public static final double MAX_COMMAND_VOLTAGE = 10;
+
 	public static final double TRACK_WIDTH = 0.55982;
-	public static final SimpleMotorFeedforward DRIVETRAIN_FEED_FORWARD = new SimpleMotorFeedforward(0.75, 0.11 * 39.37,
-			0.0148 * 39.37);
+	public static final DifferentialDriveKinematics kDriveKinematics = 
+		new DifferentialDriveKinematics(TRACK_WIDTH);
+	public static final double ks = 0.75;
+	public static final double kv = 0.11 * 39.37;
+	public static final double ka = 0.0148 * 39.37;
+	public static final SimpleMotorFeedforward DRIVETRAIN_FEED_FORWARD = new SimpleMotorFeedforward(ks, kv, ka);
+	public static final double MaxSpeed = 5.523;
+	public static final double MaxAccel = 3.98;
+	public static final double kPDriveVel = DRIVETRAIN_FEED_FORWARD.calculate(5.523, 3.98);
+	public static final double kRamseteB = 2;
+	public static final double kRamseteZeta = 0.7;
+	
+
 
 	public static final double WHEEL_DIAMETER = 0.10795;
 
