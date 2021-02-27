@@ -63,17 +63,17 @@ public class RobotContainer {
 	private final KickerSys m_kicker;
 	private final TurretSys m_turret;
 	private final ShroudSys m_shroud;
-
+	private static final double diameter = 6.00;
 	private final OI m_oi;
 	private final Compressor m_compressor;
-
 	private int shroudPos = 0;
-	public Encoder encoder1 = new Encoder(1, 2, 3);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
+
+
 		m_compressor = new Compressor();
 		m_compressor.setClosedLoopControl(true);
 
@@ -127,6 +127,9 @@ public class RobotContainer {
 		// Constants.Axes.RIGHT_STICK_Y) * 0.3),
 		// () -> m_shroud.setShroud(0), m_shroud));
 		configureButtonBindings();
+		
+		SmartDashboard.putString("DB/String 8", "LEncoderVal: "+m_drive.getLeftEncoder().getDistance());
+		SmartDashboard.putString("DB/String 9", "REncoderVal: "+m_drive.getRightEncoder().getDistance());
 	}
 
 	// if the shroud is set to a position less than 3, then this will increase the

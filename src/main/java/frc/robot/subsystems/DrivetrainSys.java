@@ -29,6 +29,7 @@ public class DrivetrainSys extends SubsystemBase {
 	private final DifferentialDrive drive;
 	private final Encoder m_leftEncoder;
 	private final Encoder m_rightEncoder;
+	private static final double diameter = 6.00;
 	/*
 	 * private final SlewRateLimiter limiter1 = new SlewRateLimiter(5); private
 	 * final SlewRateLimiter limiter2 = new SlewRateLimiter(5);
@@ -37,6 +38,9 @@ public class DrivetrainSys extends SubsystemBase {
 	public DrivetrainSys() {
 		m_leftEncoder = new Encoder(2,3);
 		m_rightEncoder = new Encoder(0,1);
+
+		m_leftEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
+		m_rightEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
 
 		this.navx = new AHRS(Port.kMXP);
 		this.frontLeft = new WPI_VictorSPX(Constants.FRONT_LEFT_DRIVE_CAN);
