@@ -35,8 +35,8 @@ public class DrivetrainSys extends SubsystemBase {
 	 */
 
 	public DrivetrainSys() {
-		m_leftEncoder = new Encoder(0,1);
-		m_rightEncoder = new Encoder(2,3);
+		m_leftEncoder = new Encoder(2,3);
+		m_rightEncoder = new Encoder(0,1);
 
 		this.navx = new AHRS(Port.kMXP);
 		this.frontLeft = new WPI_VictorSPX(Constants.FRONT_LEFT_DRIVE_CAN);
