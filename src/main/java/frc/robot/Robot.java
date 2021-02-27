@@ -97,7 +97,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
-
+		m_robotContainer.m_drive.m_leftEncoder.reset();
+		m_robotContainer.m_drive.m_rightEncoder.reset();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -112,6 +113,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+
 	}
 
 	@Override

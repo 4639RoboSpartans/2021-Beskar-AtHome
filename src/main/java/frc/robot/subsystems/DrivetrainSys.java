@@ -27,8 +27,8 @@ public class DrivetrainSys extends SubsystemBase {
 	private final AHRS navx;
 	private final DifferentialDriveOdometry odometry;
 	private final DifferentialDrive drive;
-	private final Encoder m_leftEncoder;
-	private final Encoder m_rightEncoder;
+	public final Encoder m_leftEncoder = new Encoder(2,3, true);
+	public final Encoder m_rightEncoder = new Encoder(0,1, false);
 	private static final double diameter = 6.00;
 	/*
 	 * private final SlewRateLimiter limiter1 = new SlewRateLimiter(5); private
@@ -36,9 +36,6 @@ public class DrivetrainSys extends SubsystemBase {
 	 */
 
 	public DrivetrainSys() {
-		m_leftEncoder = new Encoder(2,3);
-		m_rightEncoder = new Encoder(0,1);
-
 		m_leftEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
 		m_rightEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
 
@@ -87,15 +84,20 @@ public class DrivetrainSys extends SubsystemBase {
 	public Pose2d getCurrentPose() {
 		return odometry.getPoseMeters();
 	}
-	public Encoder getLeftEncoder() {
+	/*public Encoder getLeftEncoder() {
 		return m_leftEncoder;
 	  }
 	  public Encoder getRightEncoder() {
 		return m_rightEncoder;
-	  }
+	  }*/
 	public void resetEncoders() {
 		m_leftEncoder.reset();
 		m_rightEncoder.reset();
+		System.out.println();
+		System.out.println();
+		System.out.println("Encoder reset");
+		System.out.println();
+		System.out.println();
 	  }
 	public void arcadeDrive(double speed, double rotation) {
 		drive.arcadeDrive(speed, rotation);
