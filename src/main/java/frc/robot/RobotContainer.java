@@ -203,12 +203,13 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		return new ParallelCommandGroup(
+		/*return new ParallelCommandGroup(
 				new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive)
 						.withTimeout(1.5),
 				new Turret90Cmd(m_turret), new WaitCommand(5))
 						.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, 3800),
-								new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));
+								new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));*/
+								return TestAuton();
 	}
 	//setting up auton with pathweaver
 	public Command TestAuton(){
