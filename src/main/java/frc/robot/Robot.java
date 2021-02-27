@@ -7,7 +7,9 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -24,7 +26,9 @@ import command.CommandScheduler;
 public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
-
+	public Encoder encoder1 = new Encoder(8, 9);
+	
+	private static final double diameter = 6.00;
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -96,7 +100,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
-
+		encoder1.setDistancePerPulse(diameter * Math.PI / 2048.0);
+		encoder1.reset();
+		m_robotContainer.m_drive.m_LeftEncoder.reset();
+		m_robotContainer.m_drive.m_RightEncoder.reset();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -111,7 +118,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
+		SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
+		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_RightEncoder.getDistance());
+		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());
 	}
 
 	@Override

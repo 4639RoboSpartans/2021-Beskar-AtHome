@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -26,13 +27,18 @@ public class DrivetrainSys extends SubsystemBase {
 	private final AHRS navx;
 	private final DifferentialDriveOdometry odometry;
 	private final DifferentialDrive drive;
-
+	public final Encoder m_LeftEncoder = new Encoder(0,1);
+	public final Encoder m_RightEncoder = new Encoder(2,3);
+	private static final double diameter = 6.00;
 	/*
 	 * private final SlewRateLimiter limiter1 = new SlewRateLimiter(5); private
 	 * final SlewRateLimiter limiter2 = new SlewRateLimiter(5);
 	 */
 
-	public DrivetrainSys() {
+public DrivetrainSys(){
+	m_LeftEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
+	m_RightEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
+
 		this.navx = new AHRS(Port.kMXP);
 
 		this.frontLeft = new WPI_VictorSPX(Constants.FRONT_LEFT_DRIVE_CAN);

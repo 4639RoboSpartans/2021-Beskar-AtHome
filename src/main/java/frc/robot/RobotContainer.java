@@ -44,31 +44,26 @@ import command.WaitCommand;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-	private final ClimberSys m_climber;
-	private final DrivetrainSys m_drive;
-	private final IntakeSys m_intake;
-	private final HopperSys m_hopper;
-	private final ShooterSys m_shooter;
-	private final KickerSys m_kicker;
-	private final TurretSys m_turret;
-	private final ShroudSys m_shroud;
+	private final ClimberSys m_climber= new ClimberSys();
+	public final DrivetrainSys m_drive= new DrivetrainSys();
+	private final IntakeSys m_intake= new IntakeSys();
+	private final HopperSys m_hopper = new HopperSys();
+	private final ShooterSys m_shooter= new ShooterSys();
+	private final KickerSys m_kicker= new KickerSys();
+	private final TurretSys m_turret= new TurretSys();
+	private final ShroudSys m_shroud = new ShroudSys();
 
-	private final OI m_oi;
-	private final Compressor m_compressor;
+	private final OI m_oi= new OI();
+	private final Compressor m_compressor= new Compressor();
 
 	private int shroudPos = 0;
-	public Encoder encoder1 = new Encoder(1, 2, 3);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
-		m_compressor = new Compressor();
+		
 		m_compressor.setClosedLoopControl(true);
-
-		m_oi = new OI();
-
-		m_climber = new ClimberSys();
 		// Climber commands removed. RIGHT STICK is now used for the Shroud
 		// m_climber.setDefaultCommand(
 		// new ExecuteEndCommand(() -> m_climber.setClimber(m_oi.getAxis(1,
@@ -76,12 +71,7 @@ public class RobotContainer {
 		// () -> m_climber.setClimber(0), m_climber));
 		// m_climber.setPistons(DoubleSolenoid.Value.kReverse);
 
-		m_drive = new DrivetrainSys();
 		m_drive.setDefaultCommand(new ManualDriveCmd(m_drive, m_oi));
-
-		m_hopper = new HopperSys();
-
-		m_intake = new IntakeSys();
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
 				m_hopper.setHopper(0.0);
@@ -103,19 +93,17 @@ public class RobotContainer {
 			m_intake.setIntake(0);
 		}, m_intake, m_hopper));
 
-		m_shooter = new ShooterSys();
-		m_kicker = new KickerSys();
-		m_turret = new TurretSys();
 		m_turret.setDefaultCommand(
 				new ExecuteEndCommand(() -> m_turret.setTurret(m_oi.getAxis(1, Constants.Axes.LEFT_STICK_X) * 0.5),
 						() -> m_turret.setTurret(0), m_turret));
 
-		m_shroud = new ShroudSys();
 		// m_shroud.setDefaultCommand(
 		// new ExecuteEndCommand(() -> m_shroud.setShroud(m_oi.getAxis(1,
 		// Constants.Axes.RIGHT_STICK_Y) * 0.3),
 		// () -> m_shroud.setShroud(0), m_shroud));
 		configureButtonBindings();
+
+		
 	}
 
 	// if the shroud is set to a position less than 3, then this will increase the
@@ -145,6 +133,8 @@ public class RobotContainer {
 	 * passing it to a {@link command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
+		
+
 		// Toggle Shroud Presets
 		m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
