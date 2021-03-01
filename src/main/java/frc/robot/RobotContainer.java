@@ -63,7 +63,7 @@ import command.WaitCommand;
 public class RobotContainer {
 	private final ClimberSys m_climber= new ClimberSys();
 	public final DrivetrainSys m_drive= new DrivetrainSys();
-	private final IntakeSys m_intake= new IntakeSys();
+	public final IntakeSys m_intake= new IntakeSys();
 	private final HopperSys m_hopper= new HopperSys();
 	private final ShooterSys m_shooter = new ShooterSys();
 	private final KickerSys m_kicker= new KickerSys();

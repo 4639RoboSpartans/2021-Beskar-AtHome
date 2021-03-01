@@ -93,6 +93,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		//run the intake
+		m_robotContainer.m_intake.setIntake(0.5);
 		//go forward
 		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
 		new WaitCommand(0.5);
