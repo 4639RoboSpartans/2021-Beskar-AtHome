@@ -196,17 +196,20 @@ public class RobotContainer {
 	 *
 	 * @return the command to run in autonomous
 	 */
-	public Command getAutonomousCommand() {
-		/*return new ParallelCommandGroup(
-				new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive)
-						.withTimeout(1.5),
-				new Turret90Cmd(m_turret), new WaitCommand(5))
-						.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, 3800),
-								new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));*/
-								return TestAuton();
+	public Command originialAuton(){
+		return new ParallelCommandGroup(
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive)
+					.withTimeout(1.5),
+			new Turret90Cmd(m_turret), new WaitCommand(5))
+					.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, 3800),
+							new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));
 	}
+	public Command getAutonomousCommand() {
+		return originialAuton();
+	}
+	
 	//setting up auton with pathweaver
-	public Command TestAuton(){
+	/*public Command TestAuton(){
 		var autoVoltageConstraint = 
 			new DifferentialDriveVoltageConstraint(
 				Constants.DRIVETRAIN_FEED_FORWARD, 
@@ -225,7 +228,7 @@ public class RobotContainer {
 			trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 		}catch(IOException ex){
 			DriverStation.reportError("Unable to open traj:"+ trajJSON, ex.getStackTrace());
-		}*/
+		}
 		Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
 			// Start at the origin facing the +X direction
 			new Pose2d(0, 0, new Rotation2d(0.0)),
@@ -255,7 +258,7 @@ public class RobotContainer {
 			m_drive.resetOdometry(trajectory.getInitialPose());
 
 			return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
-	}
+	}*/
 
 
 	public void setDriveNeutralMode(NeutralMode mode) {

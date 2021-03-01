@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import command.Command;
 import command.CommandScheduler;
+import command.WaitCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -79,12 +80,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
-		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		/*m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
-		}
+		}*/
 	}
 
 	/**
@@ -92,6 +93,28 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		//go forward
+		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
+		new WaitCommand(0.5);
+		//stop and turn
+		m_robotContainer.m_drive.arcadeDrive(0, 0);
+		m_robotContainer.m_drive.arcadeDrive(0.5, 45);
+		//go forward
+		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
+		new WaitCommand(0.5);
+		//stop and turn
+		m_robotContainer.m_drive.arcadeDrive(0, 0);
+		m_robotContainer.m_drive.arcadeDrive(0.5, -90);
+		//go forward
+		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
+		new WaitCommand(0.5);
+		//stop and turn
+		m_robotContainer.m_drive.arcadeDrive(0, 0);
+		m_robotContainer.m_drive.arcadeDrive(0.5, 45);
+		//go forards
+		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
+		new WaitCommand(0.5);
+
 	}
 
 	@Override
