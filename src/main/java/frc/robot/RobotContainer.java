@@ -196,6 +196,17 @@ public class RobotContainer {
 	 *
 	 * @return the command to run in autonomous
 	 */
+	public Command TestAuton(){
+		return new ParallelCommandGroup(
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3))
+			.andThen(
+			new ParallelCommandGroup(
+			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3)
+			));
+	}
+
 	public Command originialAuton(){
 		return new ParallelCommandGroup(
 			new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive)
@@ -205,7 +216,7 @@ public class RobotContainer {
 							new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));
 	}
 	public Command getAutonomousCommand() {
-		return originialAuton();
+		return TestAuton();
 	}
 	
 	//setting up auton with pathweaver

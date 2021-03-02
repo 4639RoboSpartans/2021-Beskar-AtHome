@@ -80,12 +80,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
-		/*m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
-		}*/
+		}
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		//run the intake
+		/*//run the intake
 		m_robotContainer.m_intake.setIntake(0.5);
 		//go forward
 		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
 		m_robotContainer.m_drive.arcadeDrive(0.5, 45);
 		//go forards
 		m_robotContainer.m_drive.arcadeDrive(0.5, 0);
-		new WaitCommand(0.5);
+		new WaitCommand(0.5);*/
 
 	}
 
