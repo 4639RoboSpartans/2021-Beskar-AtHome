@@ -196,15 +196,46 @@ public class RobotContainer {
 	 *
 	 * @return the command to run in autonomous
 	 */
+	//distance for every rotation is 3.14*6
+	//theoretic value for going certain distance is 0.04 at full power
+	//turning circle radius is 19.799 in, circumference is 124.4 in.
+	//to turn with both sides, each side will travel the wanted degrees: 45:15.55 90:31.1
+	//timing for 45 degrees is: 0.009 at full speed
+	//timing for 90 degress is: 0.018 at full speed
 	public Command TestAuton(){
-		return new ParallelCommandGroup(
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3))
+		return new ParallelCommandGroup(//go forward
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0), m_intake).withTimeout(0.1),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.1))
 			.andThen(
-			new ParallelCommandGroup(
+			new ParallelCommandGroup(//turn 45 deg right
+			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(0.1),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.1)
+			))
+			/*.andThen(
+			new ParallelCommandGroup(//go forward
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3)
+			))
+			.andThen(
+			new ParallelCommandGroup(//turn 90 deg left
+			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -90), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3)
+			))
+			.andThen(
+			new ParallelCommandGroup(//go forward
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3)
+			))
+			.andThen(
+			new ParallelCommandGroup(//turn 45 deg right
 			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
 			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3)
-			));
+			))
+			.andThen(
+			new ParallelCommandGroup(//go forward
+			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(3)
+			))*/;
 	}
 
 	public Command originialAuton(){
