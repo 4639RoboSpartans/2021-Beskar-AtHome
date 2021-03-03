@@ -39,6 +39,10 @@ public class Robot extends TimedRobot {
 		m_robotContainer = new RobotContainer();
 
 		CameraServer.getInstance().startAutomaticCapture();
+		SmartDashboard.putNumber("time1", m_robotContainer.time1);
+		SmartDashboard.putNumber("time2", m_robotContainer.time2);
+		SmartDashboard.putNumber("time3", m_robotContainer.time3);
+		SmartDashboard.putNumber("time4", m_robotContainer.time4);
 	}
 
 	/**
