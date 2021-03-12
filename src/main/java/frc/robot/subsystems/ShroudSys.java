@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,6 +21,7 @@ import command.SubsystemBase;
 public class ShroudSys extends SubsystemBase {
 	private final WPI_TalonSRX shroud;
 	private final PIDController pid;
+	private final Encoder shroudEncoder;
 	private double positionDesired;
 	private double pidOut;
 
@@ -29,6 +31,9 @@ public class ShroudSys extends SubsystemBase {
 		shroud.setNeutralMode(NeutralMode.Brake);
 		shroud.setInverted(InvertType.InvertMotorOutput);
 
+		//Encoder initialization
+		shroudEncoder = new Encoder(4,5);
+		shroudEncoder.reset();
 		// PID Initialization
 		this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, 0);
 		this.pid.setSetpoint(0);
@@ -36,11 +41,10 @@ public class ShroudSys extends SubsystemBase {
 		SmartDashboard.putNumber("P", Constants.SHROUD_KP);
 		SmartDashboard.putNumber("I", Constants.SHROUD_KI);
 		SmartDashboard.putNumber("D", 0);
-		shroud.setSelectedSensorPosition(0);
 	}
 
 	public double getDegrees() {
-		return shroud.getSelectedSensorPosition();
+		return shroudEncoder.getDistance();
 	}
 
 	public void setDesiredPosition(double pos) {
