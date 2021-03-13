@@ -193,4 +193,15 @@ public class RobotContainer {
 	public void setDriveNeutralMode(NeutralMode mode) {
 		m_drive.setNeutralMode(mode);
 	}
+
+	public ShroudSys getShroud()
+	{
+		return this.m_shroud;
+	}
+
+	public void resetDesiredPostition()
+	{
+		this.shroudPos = 0;
+		m_shroud.setDesiredPosition(shroudPos);
+	}
 }

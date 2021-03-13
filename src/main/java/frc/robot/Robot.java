@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
 		// and put our
 		// autonomous chooser on the dashboard.
 		m_robotContainer = new RobotContainer();
+		
+
 
 		CameraServer.getInstance().startAutomaticCapture();
 	}
@@ -102,6 +104,11 @@ public class Robot extends TimedRobot {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		encoder1.setDistancePerPulse(diameter * Math.PI / 2048.0);
 		encoder1.reset();
+
+		//Reset the encoders on the shroud encoder
+		m_robotContainer.getShroud().resetEncoder();
+		m_robotContainer.resetDesiredPostition();
+		
 		m_robotContainer.m_drive.m_LeftEncoder.reset();
 		m_robotContainer.m_drive.m_RightEncoder.reset();
 		// This makes sure that the autonomous stops running when

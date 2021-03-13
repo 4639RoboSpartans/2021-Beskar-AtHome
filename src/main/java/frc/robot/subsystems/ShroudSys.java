@@ -32,12 +32,12 @@ public class ShroudSys extends SubsystemBase {
 		shroud.setInverted(InvertType.InvertMotorOutput);
 
 		//Encoder initialization
-		shroudEncoder = new Encoder(4,5);
+		shroudEncoder = new Encoder(4,5, true);
 		shroudEncoder.reset();
 		// PID Initialization
 		this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, 0);
 		this.pid.setSetpoint(0);
-		pid.setTolerance(10);
+		pid.setTolerance(1);
 		SmartDashboard.putNumber("P", Constants.SHROUD_KP);
 		SmartDashboard.putNumber("I", Constants.SHROUD_KI);
 		SmartDashboard.putNumber("D", 0);
@@ -74,7 +74,11 @@ public class ShroudSys extends SubsystemBase {
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);
 		shroud.set(pidOut);
-		// shroud.set(MathUtil.clamp(pidOut, -1.0, 1.0));
 
+	}
+
+	public void resetEncoder()
+	{
+		shroudEncoder.reset();
 	}
 }
