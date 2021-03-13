@@ -29,6 +29,7 @@ public final class Constants {
 
 	public static final int FRONT_LEFT_DRIVE_CAN = 2;
 	public static final int BACK_LEFT_DRIVE_CAN = 1;
+	public static final double DRIVE_STRAIGHT_kP = -0.0005;
 
 	public static final int FRONT_RIGHT_DRIVE_CAN = 3;
 	public static final int BACK_RIGHT_DRIVE_CAN = 4;
