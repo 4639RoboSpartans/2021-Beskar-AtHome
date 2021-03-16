@@ -212,11 +212,7 @@ public class RobotContainer {
 		return RedPath2();
 	}
 
-	public Command RedPath2(){//COMPLETE-PENDING RECORDING
-		time1 =SmartDashboard.getNumber("time1", 0);
-		time2 =SmartDashboard.getNumber("time2", 0);
-		time3 =SmartDashboard.getNumber("time3", 0);
-		time4 =SmartDashboard.getNumber("time4", 0);
+	public Command RedPath1(){//COMPLETE-PENDING RECORDING
 		return new ParallelCommandGroup(//go forward
 		
 			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(0.8),
@@ -241,7 +237,7 @@ public class RobotContainer {
 			.andThen(
 			new ParallelCommandGroup(//go forward
 			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.32),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.32)			))//1
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.32)))//1
 			.andThen(
 			new ParallelCommandGroup(//turn 45 deg right
 			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0), m_intake).withTimeout(0.30),//0.25
@@ -258,12 +254,58 @@ public class RobotContainer {
 		time2 =SmartDashboard.getNumber("time2", 0);
 		time3 =SmartDashboard.getNumber("time3", 0);
 		time4 =SmartDashboard.getNumber("time4", 0);
-		return new ParallelCommandGroup(
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(time1)
-		)
+		//go forward
+		return new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(time1)
 		.andThen(
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time2)
-		);
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time2)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time3)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time4)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go around marker
+			new ExecuteEndCommand(()->m_drive.curvatureDrive(0.5, -180, false), ()->m_drive.curvatureDrive(0, 0, false), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5,45), ()->m_drive.arcadeDrive(0,0),m_drive).withTimeout(0)
+		).andThen(
+			//goForward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive). withTimeout(0)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75,0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		)
+		;
 	}
 /*	public Command BarrelRollPath(){
 
@@ -271,9 +313,16 @@ public class RobotContainer {
 	
 	public Command BouncePath(){
 
-	}*/
+	}
+	public Command BluePath1(){
+
+	}
+	public Command BluePath2(){
+
+	}
+	*/
 	
-	public Command RedPath1(){//COMPLETE-PENDING RECORDING
+	public Command RedPath2(){//COMPLETE-PENDING RECORDING
 		return new ParallelCommandGroup(//go forward
 			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(0.8),
 			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0), m_intake).withTimeout(1.25),

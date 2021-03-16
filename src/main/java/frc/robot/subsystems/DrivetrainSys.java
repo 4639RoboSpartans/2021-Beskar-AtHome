@@ -100,6 +100,9 @@ public class DrivetrainSys extends SubsystemBase {
 		System.out.println();
 		System.out.println();
 	  }
+	  public void curvatureDrive(double speed, double rotation, boolean quickturn){
+		  drive.curvatureDrive(speed, rotation, quickturn);
+	  }
 	public void arcadeDrive(double speed, double rotation) {
 		drive.arcadeDrive(speed, rotation);
 	}
