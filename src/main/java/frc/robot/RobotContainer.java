@@ -79,7 +79,8 @@ public class RobotContainer {
 	public double time2;
 	public double time3;
 	public double time4;
-
+	public double time5;
+	public double time6;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -307,11 +308,62 @@ public class RobotContainer {
 		)
 		;
 	}
-/*	public Command BarrelRollPath(){
+	public Command BouncePath(){//INCOMPLETE
+		SmartDashboard.getNumber("time1", 0);
+		SmartDashboard.getNumber("time2", 0);
+		SmartDashboard.getNumber("time3", 0);
+		SmartDashboard.getNumber("time4", 0);
+		SmartDashboard.getNumber("time5", 0);
+		SmartDashboard.getNumber("time6", 0);
+		//go forward
+		return new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75,0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time1)
+		.andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time2)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time3)
+		).andThen(
+			//go backward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(-0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time4)
+		)
+		.andThen(
+			//slightly turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time5)
+		).andThen(
+			//go backwards
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(-0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time6)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go backwards
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(-0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forwards
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//turn slightly left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		).andThen(
+			//go backwards
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(-0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+		);
 
 	}
-	
-	public Command BouncePath(){
+/*	public Command BarrelRollPath(){
 
 	}
 	public Command BluePath1(){
