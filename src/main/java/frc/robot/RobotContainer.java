@@ -6,31 +6,15 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot;
 
+import java.io.*;
+import java.util.*;
+
 import static frc.robot.Constants.Buttons;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ManualDriveCmd;
 import frc.robot.commands.PushBallsCmd;
 import frc.robot.commands.SpoolShooterCmd;
@@ -363,9 +347,73 @@ public class RobotContainer {
 		);
 
 	}
-/*	public Command BarrelRollPath(){
-
+	public Command BarrelRollPath(){//INCOMPLETE
+		SmartDashboard.getNumber("time1", 0);
+		SmartDashboard.getNumber("time2", 0);
+		SmartDashboard.getNumber("time3", 0);
+		SmartDashboard.getNumber("time4", 0);
+		SmartDashboard.getNumber("time5", 0);
+		SmartDashboard.getNumber("time6", 0);
+		//go forward
+		return new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time1)
+		.andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time2)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time3)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time4)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time5)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time6)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//turn right
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//turn left
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		).andThen(
+			//go forward
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0)
+		)
+		;
 	}
+/*	
 	public Command BluePath1(){
 
 	}
