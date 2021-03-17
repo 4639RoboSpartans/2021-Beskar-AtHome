@@ -17,13 +17,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import command.SubsystemBase;
 
 public class ClimberSys extends SubsystemBase {
-	private final WPI_TalonSRX leftClimber, rightClimber;
+	//private final WPI_TalonSRX leftClimber, rightClimber;
 	private final DoubleSolenoid leftPiston, rightPiston;
 
 	public ClimberSys() {
 		this.leftPiston = new DoubleSolenoid(Constants.LEFT_PISTON_FORWARD_ID, Constants.LEFT_PISTON_REVERSE_ID);
 		this.rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
-
+/*
 		this.leftClimber = new WPI_TalonSRX(Constants.LEFT_CLIMBER_CAN);
 		leftClimber.setSensorPhase(true);
 		leftClimber.configFactoryDefault();
@@ -43,17 +43,18 @@ public class ClimberSys extends SubsystemBase {
 		rightClimber.configReverseSoftLimitEnable(true);
 		rightClimber.configForwardSoftLimitEnable(true);
 		rightClimber.configForwardSoftLimitThreshold(20_000);
+		*/
 	}
 
 	public void setPistons(DoubleSolenoid.Value value) {
 		leftPiston.set(value);
 		rightPiston.set(value);
 	}
-
+/*
 	public void setClimber(double num) {
 		leftClimber.set(num);
 	}
-
+*/
 	@Override
 	public void periodic() {
 	}

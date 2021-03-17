@@ -65,6 +65,7 @@ public class RobotContainer {
 	public double time4;
 	public double time5;
 	public double time6;
+	public String AutonPath;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -194,7 +195,27 @@ public class RobotContainer {
 	//timing for 45 degrees is: 0.009 at full speed
 	//timing for 90 degress is: 0.018 at full speed
 	public Command getAutonomousCommand() {
-		return RedPath2();
+		SmartDashboard.putString("Choose Auton Path:", "R1, R2, B1, B2, Barrel, Slalom, Bounce");
+		SmartDashboard.getString("AutonPath", "");
+		switch(AutonPath){
+			case "R1":
+				return RedPath1();
+			case "R2":
+				return RedPath2();
+			case "B1":
+				return BluePath1();
+			case "B2":
+				return BluePath2();
+			case "Barrel":
+				return BarrelRollPath();
+			case "Slalom":
+				return SlalomPath();
+			case "Bounce":
+				return BouncePath();
+			default:
+				return null;
+				
+		}
 	}
 	public Command BarrelRollPath(){//INCOMPLETE
 		SmartDashboard.getNumber("time1", 0);

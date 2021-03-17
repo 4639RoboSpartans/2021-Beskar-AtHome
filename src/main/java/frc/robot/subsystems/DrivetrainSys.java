@@ -85,12 +85,12 @@ public class DrivetrainSys extends SubsystemBase {
 	public Pose2d getCurrentPose() {
 		return odometry.getPoseMeters();
 	}
-	/*public Encoder getLeftEncoder() {
+	public Encoder getLeftEncoder() {
 		return m_leftEncoder;
 	  }
 	  public Encoder getRightEncoder() {
 		return m_rightEncoder;
-	  }*/
+	  }
 	public void resetEncoders() {
 		m_leftEncoder.reset();
 		m_rightEncoder.reset();
