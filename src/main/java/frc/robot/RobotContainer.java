@@ -9,6 +9,10 @@ package frc.robot;
 import java.io.*;
 import java.util.*;
 
+
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.MedianFilter;
+
 import static frc.robot.Constants.Buttons;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -66,6 +70,12 @@ public class RobotContainer {
 	public double time5;
 	public double time6;
 	public String AutonPath;
+	private static final double kValueToInches = 0.125;
+	private static final int kUltrasonicPort = 0;
+	private final MedianFilter m_filter = new MedianFilter(10);
+	public double currentDistance;
+
+  private final AnalogInput m_ultrasonic = new AnalogInput(kUltrasonicPort);
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -195,27 +205,37 @@ public class RobotContainer {
 	//timing for 45 degrees is: 0.009 at full speed
 	//timing for 90 degress is: 0.018 at full speed
 	public Command getAutonomousCommand() {
-		SmartDashboard.putString("Choose Auton Path:", "R1, R2, B1, B2, Barrel, Slalom, Bounce");
+		/*SmartDashboard.putString("Choose Auton Path:", "R1, R2, B1, B2, Barrel, Slalom, Bounce");
 		SmartDashboard.getString("AutonPath", "");
+		AutonPath = AutonPath.toLowerCase();
 		switch(AutonPath){
-			case "R1":
+			case "r1":
 				return RedPath1();
-			case "R2":
+			case "r2":
 				return RedPath2();
-			case "B1":
+			case "b1":
 				return BluePath1();
-			case "B2":
+			case "b2":
 				return BluePath2();
-			case "Barrel":
+			case "barrel":
 				return BarrelRollPath();
-			case "Slalom":
+			case "slalom":
 				return SlalomPath();
-			case "Bounce":
+			case "bounce":
 				return BouncePath();
 			default:
 				return null;
-				
-		}
+			*/
+			return RedPath2();/*
+			if(currentDistance<155){
+				return RedPath2();
+			}else{
+				return RedPath1();
+			}*/
+	}
+	void getCurrentDistance(){
+		currentDistance = m_filter.calculate(m_ultrasonic.getValue()) * kValueToInches;
+		SmartDashboard.putNumber("Distance:", currentDistance); 
 	}
 	public Command BarrelRollPath(){//INCOMPLETE
 		SmartDashboard.getNumber("time1", 0);
@@ -290,10 +310,10 @@ public class RobotContainer {
 		time3 =SmartDashboard.getNumber("time3", 0);
 		time4 =SmartDashboard.getNumber("time4", 0);
 		//go forward
-		return new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(time1)
+		return new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(0.7)
 		.andThen(
-			//turn left
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time2)
+			//turn left 
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.3)
 		).andThen(
 			//go forward
 			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time3)
@@ -302,10 +322,10 @@ public class RobotContainer {
 			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time4)
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time1)
 		).andThen(
 			//turn right
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0,0), m_drive).withTimeout(time2)
 		).andThen(
 			//go forward
 			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
@@ -437,16 +457,16 @@ public class RobotContainer {
 		));
 	}
 	public Command RedPath1(){//COMPLETE-PENDING RECORDING
-		return new ParallelCommandGroup(//go forward
+		SmartDashboard.getNumber("time1", 0);
+		return new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.4)
+		.andThen(
+		 new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.15)
+		).andThen(
+		 new ParallelCommandGroup(//go forward
 		
-			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(0.8),
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.25),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.25))
-			.andThen(//1.25
-			new ParallelCommandGroup(//turn 45 deg right
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(0.12),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.12)
-			))//0.12	
+			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(1),
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.24),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.24)))	
 			.andThen(
 			new ParallelCommandGroup(//go forward
 			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(0.7),
@@ -455,8 +475,8 @@ public class RobotContainer {
 
 			.andThen(
 			new ParallelCommandGroup(//turn 90 deg left
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0.5), m_intake).withTimeout(0.25),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.25)
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0.5), m_intake).withTimeout(0.3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.3)
 			))//0.3
 			.andThen(
 			new ParallelCommandGroup(//go forward

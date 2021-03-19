@@ -121,6 +121,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_leftEncoder.getDistance());
 		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_rightEncoder.getDistance());
+		m_robotContainer.getCurrentDistance();
 	}
 
 	@Override
