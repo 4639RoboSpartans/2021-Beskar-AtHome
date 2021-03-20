@@ -84,7 +84,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
+		m_robotContainer.getCurrentDistance();
+		SmartDashboard.putNumber("Distance: ", m_robotContainer.currentDistance);
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {

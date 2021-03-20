@@ -70,12 +70,12 @@ public class RobotContainer {
 	public double time5;
 	public double time6;
 	public String AutonPath;
-	private static final double kValueToInches = 0.125;
-	private static final int kUltrasonicPort = 0;
+	public static final double kValueToInches = 0.125;
+	public static final int kUltrasonicPort = 0;
 	private final MedianFilter m_filter = new MedianFilter(10);
 	public double currentDistance;
 
-  private final AnalogInput m_ultrasonic = new AnalogInput(kUltrasonicPort);
+  public final AnalogInput m_ultrasonic = new AnalogInput(kUltrasonicPort);
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -193,7 +193,7 @@ public class RobotContainer {
 		m_oi.getButton(0, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
 	}
 
-	/**
+	/**x
 	 * Use this to pass the autonomous command to the main {@link Robot} class.
 	 *
 	 * @return the command to run in autonomous
@@ -205,35 +205,14 @@ public class RobotContainer {
 	//timing for 45 degrees is: 0.009 at full speed
 	//timing for 90 degress is: 0.018 at full speed
 	public Command getAutonomousCommand() {
-		/*SmartDashboard.putString("Choose Auton Path:", "R1, R2, B1, B2, Barrel, Slalom, Bounce");
-		SmartDashboard.getString("AutonPath", "");
-		AutonPath = AutonPath.toLowerCase();
-		switch(AutonPath){
-			case "r1":
-				return RedPath1();
-			case "r2":
-				return RedPath2();
-			case "b1":
-				return BluePath1();
-			case "b2":
-				return BluePath2();
-			case "barrel":
-				return BarrelRollPath();
-			case "slalom":
-				return SlalomPath();
-			case "bounce":
-				return BouncePath();
-			default:
-				return null;
-			*/
-			return RedPath2();/*
-			if(currentDistance<155){
-				return RedPath2();
+			if(currentDistance<160.0){
+				return RedPath2();	
 			}else{
 				return RedPath1();
-			}*/
+			}
+			//return BarrelRollPath();
 	}
-	void getCurrentDistance(){
+	public void getCurrentDistance(){
 		currentDistance = m_filter.calculate(m_ultrasonic.getValue()) * kValueToInches;
 		SmartDashboard.putNumber("Distance:", currentDistance); 
 	}
@@ -310,25 +289,25 @@ public class RobotContainer {
 		time3 =SmartDashboard.getNumber("time3", 0);
 		time4 =SmartDashboard.getNumber("time4", 0);
 		//go forward
-		return new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(0.7)
+		return new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(0.7)//0.7
 		.andThen(
 			//turn left 
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.3)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.25)//0.3
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time3)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0.5)
 		).andThen(
 			//turn right
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time4)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(time1)
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time1)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time2)
 		).andThen(
 			//turn right
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0,0), m_drive).withTimeout(time2)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()-> m_drive.arcadeDrive(0,0), m_drive).withTimeout(time3)
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time4)
 		).andThen(
 			//turn left
 			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, -45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
@@ -417,7 +396,20 @@ public class RobotContainer {
 		);
 
 	}
-
+	public Command shortR1(){
+		return new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.22)//0.2
+		.andThen(new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.165))//0.16
+		.andThen( new ParallelCommandGroup(//go forward
+			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(1),
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.23),//1.24
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.23)))	;//0.16//0.2
+	}
+	public Command shortR2(){
+		return new ParallelCommandGroup(//go forward
+			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(0.8),
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0), m_intake).withTimeout(1.25),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.25));
+	}
 	public Command BluePath1(){//INCOMPLETE(TESTING)
 		SmartDashboard.getNumber("time1", 0);
 		SmartDashboard.getNumber("time2", 0);
@@ -457,16 +449,12 @@ public class RobotContainer {
 		));
 	}
 	public Command RedPath1(){//COMPLETE-PENDING RECORDING
-		SmartDashboard.getNumber("time1", 0);
-		return new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.4)
-		.andThen(
-		 new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.15)
-		).andThen(
-		 new ParallelCommandGroup(//go forward
-		
+		return new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.3)//0.2
+		.andThen(new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.165))//0.16
+		.andThen( new ParallelCommandGroup(//go forward
 			new ExecuteEndCommand(()->m_intakePiv.setPivot(-0.7), ()->m_intakePiv.setPivot(0), m_intakePiv).withTimeout(1),
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.24),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.24)))	
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.23),//1.24
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.23)))	
 			.andThen(
 			new ParallelCommandGroup(//go forward
 			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(0.7),
@@ -475,22 +463,22 @@ public class RobotContainer {
 
 			.andThen(
 			new ParallelCommandGroup(//turn 90 deg left
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0.5), m_intake).withTimeout(0.3),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.3)
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.5), () -> m_intake.setIntake(0.5), m_intake).withTimeout(0.27),//0.3
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, -45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.27)
 			))//0.3
 			.andThen(
 			new ParallelCommandGroup(//go forward
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.32),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.32)))//1
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0.7), m_intake).withTimeout(1.3),//1.32
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.3)))//1
 			.andThen(
 			new ParallelCommandGroup(//turn 45 deg right
-			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0), m_intake).withTimeout(0.30),//0.25
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.30)
+			new ExecuteEndCommand(() -> m_intake.setIntake(0.7), () -> m_intake.setIntake(0), m_intake).withTimeout(0.33),//0.25
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.5, 45), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.33)
 			))
 			.andThen(
 			new ParallelCommandGroup(//go forward
-			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(1.2),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.2)
+			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(1.3),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.3)
 		));
 	}
 	public Command BluePath2(){//INCOMPLETE-TESTING
@@ -564,8 +552,8 @@ public class RobotContainer {
 			))
 			.andThen(
 			new ParallelCommandGroup(//go forward
-			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(0.8),
-			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.8)
+			new ExecuteEndCommand(() -> m_intake.setIntake(0), () -> m_intake.setIntake(0), m_intake).withTimeout(0.95),
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(0.95)
 			));
 	}
 
