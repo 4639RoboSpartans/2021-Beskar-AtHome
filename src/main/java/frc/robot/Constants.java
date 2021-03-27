@@ -40,10 +40,16 @@ public final class Constants {
 	public static final double SHROUD_KI = 1.0;
 	public static final double SHROUD_PRESET_0 = 0.0;
 	public static final double SHROUD_PRESET_1 = 205.0;
-	public static final double SHROUD_PRESET_2 = 335.0;
-	public static final double SHROUD_PRESET_3 = 485.0;
+	public static final double SHROUD_PRESET_2 = 300.0;
+	public static final double SHROUD_PRESET_3 = 350.0;
 	public static final double SHROUD_MAX_POS = 485.0;
 
+
+	//SHOOTER CONSTANTS
+	public static final double SHOOTER_RPM_0 = 1000.0;
+	public static final double SHOOTER_RPM_1 = 3000.0;
+	public static final double SHOOTER_RPM_2 = 3800.0;
+	public static final double SHOOTER_RPM_3 = 2800.0;
 	public static final int TURRET_CAN = 7;
 	public static final int TOP_SHOOTER_CAN = 8;
 	public static final int BOTTOM_SHOOTER_CAN = 9;

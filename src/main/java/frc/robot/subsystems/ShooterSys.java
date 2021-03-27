@@ -7,7 +7,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -55,12 +55,15 @@ public class ShooterSys extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		double pidOut = pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired);
+		SmartDashboard.putNumber("Shooter PID", pidOut);
+		SmartDashboard.putNumber("Shooter Speed", topShooter.getSelectedSensorVelocity());
+		SmartDashboard.putNumber("Shooter DesiredSpeed", this.speedDesired);
 		if (speedDesired == 0) {
 			pid.reset();
 			topShooter.set(0);
 		} else {
-			topShooter.setVoltage(
-					pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired));
+			topShooter.setVoltage(pidOut);
 		}
 	}
 }
