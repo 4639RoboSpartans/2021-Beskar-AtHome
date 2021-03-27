@@ -46,10 +46,10 @@ public final class Constants {
 
 
 	//SHOOTER CONSTANTS
-	public static final double SHOOTER_RPM_0 = 1000.0;
-	public static final double SHOOTER_RPM_1 = 3000.0;
-	public static final double SHOOTER_RPM_2 = 3800.0;
-	public static final double SHOOTER_RPM_3 = 2800.0;
+	public static final double SHOOTER_RPM_0 = 100.0;
+	public static final double SHOOTER_RPM_1 = 300.0;
+	public static final double SHOOTER_RPM_2 = 380.0;
+	public static final double SHOOTER_RPM_3 = 280.0;
 	public static final int TURRET_CAN = 7;
 	public static final int TOP_SHOOTER_CAN = 8;
 	public static final int BOTTOM_SHOOTER_CAN = 9;
