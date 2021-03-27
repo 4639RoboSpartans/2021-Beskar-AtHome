@@ -23,6 +23,8 @@ public class ShroudSys extends SubsystemBase {
 	private final PIDController pid;
 	private final Encoder shroudEncoder;
 	private double positionDesired;
+	private double previouPosition;
+	private int shroudReset = 10;
 	private double pidOut;
 
 	public ShroudSys() {
@@ -47,6 +49,8 @@ public class ShroudSys extends SubsystemBase {
 		return shroudEncoder.getDistance();
 	}
 
+
+
 	public void setDesiredPosition(double pos) {
 		if (pos == 0)
 			positionDesired = Constants.SHROUD_PRESET_0;
@@ -66,13 +70,21 @@ public class ShroudSys extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		pidOut = pid.calculate(getDegrees(), positionDesired) / 1000.0;
-
+		if (positionDesired != previouPosition && shroudReset > 0) {
+			shroudReset--;
+			pidOut = pid.calculate(getDegrees(), Constants.SHROUD_MAX_POS) / 1000.0;
+		} else {
+			pidOut = pid.calculate(getDegrees(), positionDesired) / 1000.0;
+			shroudReset = 10;
+			previouPosition = positionDesired;
+		}
 		pid.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
 				SmartDashboard.getNumber("D", 0));
 		SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);
+		SmartDashboard.putNumber("PIDOut", pidOut);
+		SmartDashboard.putNumber("ShroudError", getDegrees() - positionDesired);
 		shroud.set(pidOut);
 
 	}
