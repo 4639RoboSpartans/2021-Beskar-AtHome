@@ -43,6 +43,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("time2", m_robotContainer.time2);
 		SmartDashboard.putNumber("time3", m_robotContainer.time3);
 		SmartDashboard.putNumber("time4", m_robotContainer.time4);
+		SmartDashboard.putNumber("time5", m_robotContainer.time5);
+		SmartDashboard.putNumber("time6", m_robotContainer.time6);
 	}
 
 	/**
@@ -85,9 +87,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		m_robotContainer.getCurrentDistance();
-		SmartDashboard.putNumber("Distance: ", m_robotContainer.currentDistance);
+		//SmartDashboard.putNumber("Distance: ", m_robotContainer.currentDistance);
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
@@ -122,8 +123,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_leftEncoder.getDistance());
-		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_rightEncoder.getDistance());
+		//SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_leftEncoder.getDistance());
+		//SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_rightEncoder.getDistance());
 		m_robotContainer.getCurrentDistance();
 	}
 

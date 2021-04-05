@@ -128,7 +128,7 @@ public class RobotContainer {
 	// if the shroud is set to a position less than 3, then this will increase the
 	// position value by 1, and then return that position.
 	private int goDown() {
-		SmartDashboard.putString("DB/String 5", "GoUp: True");
+		//SmartDashboard.putString("DB/String 5", "GoUp: True");
 		if (shroudPos < 3) {
 			return ++this.shroudPos;
 		} else
@@ -138,7 +138,7 @@ public class RobotContainer {
 	// if the shroud is set to a position less than 4, then this will increase the
 	// position value by 1, and then return that position.
 	private int goUp() {
-		SmartDashboard.putString("DB/String 5", "GoDown: True");
+		//SmartDashboard.putString("DB/String 5", "GoDown: True");
 		if (shroudPos > 0) {
 			return --this.shroudPos;
 		} else
@@ -156,10 +156,10 @@ public class RobotContainer {
 		m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
 
-		SmartDashboard.putString("DB/String 1", "RightPOV: " + m_oi.getPovButton(1, 90).get());
-		SmartDashboard.putString("DB/String 2", "LeftPOV: " + m_oi.getPovButton(1, 270).get());
-		SmartDashboard.putString("DB/String 3", "UpPOV:" + m_oi.getPovButton(1, 0).get());
-		SmartDashboard.putString("DB/String 4", "DownPOV:" + m_oi.getPovButton(1, 180).get());
+		//SmartDashboard.putString("DB/String 1", "RightPOV: " + m_oi.getPovButton(1, 90).get());
+		//SmartDashboard.putString("DB/String 2", "LeftPOV: " + m_oi.getPovButton(1, 270).get());
+		//SmartDashboard.putString("DB/String 3", "UpPOV:" + m_oi.getPovButton(1, 0).get());
+		//SmartDashboard.putString("DB/String 4", "DownPOV:" + m_oi.getPovButton(1, 180).get());
 		// Bring intake up
 		m_oi.getPovButton(1, 0)
 				.whileHeld(new ExecuteEndCommand(() -> m_intakePiv.setPivot(0.7), () -> m_intakePiv.setPivot(0), m_intake));
@@ -210,59 +210,58 @@ public class RobotContainer {
 			}else{
 				return RedPath1();
 			}*/
-			return SlalomPath();
+			return BarrelRollPath();
 	}
 	public void getCurrentDistance(){
 		currentDistance = m_filter.calculate(m_ultrasonic.getValue()) * kValueToInches;
-		SmartDashboard.putNumber("Distance:", currentDistance); 
+		//SmartDashboard.putNumber("Distance:", currentDistance); 
 	}
 	public Command BarrelRollPath(){//INCOMPLETE
-		SmartDashboard.getNumber("time1", 0);
-		SmartDashboard.getNumber("time2", 0);
-		SmartDashboard.getNumber("time3", 0);
-		SmartDashboard.getNumber("time4", 0);
-		SmartDashboard.getNumber("time5", 0);
-		SmartDashboard.getNumber("time6", 0);
-		double normal  = 12.0*0.75;
+		time1 =SmartDashboard.getNumber("time1", 0);
+		time2=SmartDashboard.getNumber("time2", 0);
+		time3=SmartDashboard.getNumber("time3", 0);
+		time4=SmartDashboard.getNumber("time4", 0);
+		time5 =SmartDashboard.getNumber("time5", 0);
+		time6 = SmartDashboard.getNumber("time6", 0);
 		double turning = 12.0*0.5;
 		//go forward
-		return new ExecuteEndCommand(()->m_drive.tankDriveVolts(normal, normal), ()-> m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time1)
+		return new ExecuteEndCommand(()->m_drive.tankDriveVolts(turning, turning), ()-> m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(1.3)
 		.andThen(
 			//turn right t1
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 0.5), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time2)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 0.25), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(2)
 		).andThen(
 			//go forward t2
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 4), ()->m_drive.tankDriveVolts(0, 0)).withTimeout(time3)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0.7)
 		).andThen(
 			//turn right t3
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 0.5), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time4)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 0.25), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(2.381)//1.8
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(normal, normal), ()-> m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(turning, turning), ()-> m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(1.1)//1.1
 		).andThen(
 			//turn left t1
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.5, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.25, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(1.6)//1.6.
 		).andThen(
 			//go forward t2
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0.5)//0.7
 		).andThen(
 			//turn left t3
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.5, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.25, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time1)//1.3
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(normal, normal), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(turning, turning), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time2)
 		).andThen(
 			//turn left t1
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.5, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.25, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time3)
 		).andThen(
 			//go forward t2
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(4, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time4)
 		).andThen(
 			//turn left t3
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.5, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(0.25, 4), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time5)
 		).andThen(
 			//go forward
-			new ExecuteEndCommand(()->m_drive.tankDriveVolts(normal, normal), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.tankDriveVolts(turning, turning), ()->m_drive.tankDriveVolts(0, 0), m_drive).withTimeout(time6)
 		);
 	}
 	
@@ -271,6 +270,8 @@ public class RobotContainer {
 		time2 =SmartDashboard.getNumber("time2", 0);
 		time3 =SmartDashboard.getNumber("time3", 0);
 		time4 =SmartDashboard.getNumber("time4", 0);
+		time5 = SmartDashboard.getNumber("time5", 0);
+		time6 = SmartDashboard.getNumber("time6", 0);
 		//go forward
 		return new ExecuteEndCommand(() -> m_drive.arcadeDrive(0.75, 0), ()-> m_drive.arcadeDrive(0, 0),m_drive).withTimeout(0.7)//0.7
 		.andThen(
@@ -304,10 +305,10 @@ public class RobotContainer {
 			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(time4)
 		).andThen(
 			//turn right
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5,45), ()->m_drive.arcadeDrive(0,0),m_drive).withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5,45), ()->m_drive.arcadeDrive(0,0),m_drive).withTimeout(time5)
 		).andThen(
 			//goForward
-			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive). withTimeout(0)
+			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.75, 0), ()->m_drive.arcadeDrive(0,0), m_drive). withTimeout(time6)
 		).andThen(
 			//turn right
 			new ExecuteEndCommand(()->m_drive.arcadeDrive(0.5, 45), ()->m_drive.arcadeDrive(0,0), m_drive).withTimeout(0)
