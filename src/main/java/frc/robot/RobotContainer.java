@@ -35,6 +35,7 @@ import command.Command;
 import command.ExecuteEndCommand;
 import command.InstantCommand;
 import command.ParallelCommandGroup;
+import command.ScheduleCommand;
 import command.WaitCommand;
 
 /**
@@ -56,6 +57,7 @@ public class RobotContainer {
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;
+	private final VisionAimCmd aim = new VisionAimCmd(m_turret);
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -130,8 +132,7 @@ public class RobotContainer {
 	 * passing it to a {@link command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
-		
-
+		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(aim);
 		// Toggle Shroud Presets
 		m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
