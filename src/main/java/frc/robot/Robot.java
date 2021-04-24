@@ -6,7 +6,11 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +31,10 @@ public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
 	public Encoder encoder1 = new Encoder(8, 9);
+	UsbCamera camera1;
+	UsbCamera camera2;
+	VideoSink videoServer;
+	NetworkTableEntry cameraSelection;
 	
 	private static final double diameter = 6.00;
 	/**
@@ -41,8 +49,9 @@ public class Robot extends TimedRobot {
 		m_robotContainer = new RobotContainer();
 		
 
-
-		CameraServer.getInstance().startAutomaticCapture();
+		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+		cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");;
 	}
 
 	/**
