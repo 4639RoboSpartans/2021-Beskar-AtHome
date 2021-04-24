@@ -15,18 +15,19 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import command.SubsystemBase;
 
 public class ShroudSys extends SubsystemBase {
-	private final WPI_TalonSRX shroud;
+	private final WPI_VictorSPX shroud;
 	private final PIDController pid;
 	private final Encoder shroudEncoder;
 	private double positionDesired;
 	private double pidOut;
 
 	public ShroudSys() {
-		this.shroud = new WPI_TalonSRX(Constants.SHROUD_CAN);
+		this.shroud = new WPI_VictorSPX(Constants.SHROUD_CAN);
 		shroud.configFactoryDefault();
 		shroud.setNeutralMode(NeutralMode.Brake);
 		shroud.setInverted(InvertType.InvertMotorOutput);

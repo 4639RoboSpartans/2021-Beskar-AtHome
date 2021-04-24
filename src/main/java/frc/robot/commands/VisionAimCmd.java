@@ -21,14 +21,19 @@ public class VisionAimCmd extends CommandBase {
 	public VisionAimCmd(TurretSys turret) {
 		this.turret = turret;
 		addRequirements(turret);
+		if (Constants.STCam!=null){
+			SmartDashboard.putBoolean("camera Found ", true);
+		}else{
+			SmartDashboard.putBoolean("camera Found", false);
+		}
 	}
 
 	@Override
 	//go to photonvisionslhs.local:5800 to see camera output and tune it
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
-		double KpRot = -0.1;
-		double constantForce = 0.05;
+		double KpRot = 0.005;
+		double constantForce = 0.005;
 		double angleTolerance = 5;// Deadzone for the angle control loop
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
 		if(Constants.STCam.hasTargets()){
@@ -37,6 +42,7 @@ public class VisionAimCmd extends CommandBase {
 				turret.setTurret(KpRot*yaw+constantForce);
 				SmartDashboard.putBoolean("Spinning", true);
 			}else{
+			
 				turret.setTurret(0);
 				SmartDashboard.putBoolean("Spinning",false);
 			}

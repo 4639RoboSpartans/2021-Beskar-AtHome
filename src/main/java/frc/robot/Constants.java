@@ -37,7 +37,7 @@ public final class Constants {
 	public static final int BACK_RIGHT_DRIVE_CAN = 4;
 
 	// SHROUD CONSTANTS
-	public static final int SHROUD_CAN = 10; // the CAN 10 was rassigned to the Shroud.
+	public static final int SHROUD_CAN = 6; // the CAN 10 was rassigned to the Shroud.
 	public static final double SHROUD_KP = 3.0;
 	public static final double SHROUD_KI = 0.1;
 	public static final double SHROUD_PRESET_0 = 0.0;
@@ -59,7 +59,7 @@ public final class Constants {
 	public static final int KICKER_CAN = 13;
 
 	public static final int LEFT_CLIMBER_CAN = 11;
-	public static final int RIGHT_CLIMBER_CAN = 20; // Reusing Motor Controller. It is used to be 10
+	public static final int RIGHT_CLIMBER_CAN = 10; // Reusing Motor Controller. It is used to be 10
 	// for shroud insated.
 
 	public static final int LEFT_PISTON_FORWARD_ID = 2;
