@@ -74,7 +74,7 @@ public class ShroudSys extends SubsystemBase {
 		SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);
-		shroud.set(pidOut);
+		//shroud.set(pidOut); uncomment for future use FOR MANUAL CONTROL OF SHROUD
 
 	}
 
