@@ -32,7 +32,7 @@ public class VisionAimCmd extends CommandBase {
 	}
 
 	@Override
-	//go to photonvisionslhs.local:5800 to see camera output and tune it
+	//go to 1.46.39.200:5800 to see camera output and tune it
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
 		double KpRotTurret = 0.005;
