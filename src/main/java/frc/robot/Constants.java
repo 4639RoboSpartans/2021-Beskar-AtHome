@@ -7,7 +7,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-
+import org.photonvision.PhotonCamera;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+	public static PhotonCamera STCam = new PhotonCamera("Aimbot9000");
+
 	public static final String TURRET_CAMERA_NAME = "";
 	public static final double MAX_COMMAND_VOLTAGE = 10;
 	public static final double TRACK_WIDTH = 0.55982;

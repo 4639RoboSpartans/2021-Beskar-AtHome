@@ -19,6 +19,7 @@ import frc.robot.commands.ManualDriveCmd;
 import frc.robot.commands.PushBallsCmd;
 import frc.robot.commands.SpoolShooterCmd;
 import frc.robot.commands.Turret90Cmd;
+import frc.robot.commands.VisionAimCmd;
 import frc.robot.subsystems.ClimberSys;
 import frc.robot.subsystems.DrivetrainSys;
 import frc.robot.subsystems.HopperSys;
@@ -52,17 +53,13 @@ public class RobotContainer {
 	private final KickerSys m_kicker= new KickerSys();
 	private final TurretSys m_turret= new TurretSys();
 	private final ShroudSys m_shroud = new ShroudSys();
-
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
-
 	private int shroudPos = 0;
-
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
-		
 		m_compressor.setClosedLoopControl(true);
 		// Climber commands removed. RIGHT STICK is now used for the Shroud
 		// m_climber.setDefaultCommand(
@@ -70,7 +67,7 @@ public class RobotContainer {
 		// Constants.Axes.RIGHT_STICK_Y)),
 		// () -> m_climber.setClimber(0), m_climber));
 		// m_climber.setPistons(DoubleSolenoid.Value.kReverse);
-
+		
 		m_drive.setDefaultCommand(new ManualDriveCmd(m_drive, m_oi));
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
@@ -149,8 +146,7 @@ public class RobotContainer {
 
 		// Run Hopper In
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(() -> m_hopper.setHopper(0.5), m_hopper));
-		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(() -> m_intake.setIntake(0.5), m_intake));
-
+		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(() -> m_intake.setIntake(0.5), m_intake));	
 		// Bring intake down
 		m_oi.getPovButton(1, 180)
 				.whileHeld(new ExecuteEndCommand(() -> m_intake.setPivot(-0.5), () -> m_intake.setPivot(0), m_intake));

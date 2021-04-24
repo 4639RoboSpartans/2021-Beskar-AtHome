@@ -9,35 +9,42 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.TurretSys;
-
+import frc.robot.OI;
+import frc.robot.Constants.Buttons;
 import command.CommandBase;
 
 public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
-	private final NetworkTableEntry yawEntry;
-
 	public VisionAimCmd(TurretSys turret) {
 		this.turret = turret;
 		addRequirements(turret);
-		NetworkTable chameleonTable = NetworkTableInstance.getDefault().getTable("chameleon-vision")
-				.getSubTable(Constants.TURRET_CAMERA_NAME);
-		this.yawEntry = chameleonTable.getEntry("yaw");
 	}
 
 	@Override
+	//go to photonvisionslhs.local:5800 to see camera output and tune it
 	public void execute() {
+		var result = Constants.STCam.getLatestResult();
 		double KpRot = -0.1;
 		double constantForce = 0.05;
 		double angleTolerance = 5;// Deadzone for the angle control loop
-
-		double rotationError = yawEntry.getDouble(0.0);
-		if (rotationError > angleTolerance)
+		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
+		if(Constants.STCam.hasTargets()){
+			double yaw = result.getBestTarget().getYaw();
+			if(Math.abs(yaw)>angleTolerance){
+				turret.setTurret(KpRot*yaw+constantForce);
+				SmartDashboard.putBoolean("Spinning", true);
+			}else{
+				turret.setTurret(0);
+				SmartDashboard.putBoolean("Spinning",false);
+			}
+		}
+		/*if (rotationError > angleTolerance)
 			turret.setTurret(KpRot * rotationError + constantForce);
 		else
-			turret.setTurret(0);
+			turret.setTurret(0);*/
 	}
 
 	@Override
