@@ -61,10 +61,6 @@ public class VisionAimCmd extends CommandBase {
 				SmartDashboard.putBoolean("Up down", false);
 			}
 		}
-		/*if (rotationError > angleTolerance)
-			turret.setTurret(KpRot * rotationError + constantForce);
-		else
-			turret.setTurret(0);*/
 	}
 
 	@Override
