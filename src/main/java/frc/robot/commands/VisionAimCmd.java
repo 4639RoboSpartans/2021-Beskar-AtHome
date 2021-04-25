@@ -16,7 +16,7 @@ import frc.robot.subsystems.TurretSys;
 import frc.robot.OI;
 import frc.robot.Constants.Buttons;
 import command.CommandBase;
-
+//BUTTON TO USE THIS PROGRAM IS THE LEFT BUMPER ON THE SECOND REMOTE, OR REMOTE #1
 public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
 	private final ShroudSys shroud;
