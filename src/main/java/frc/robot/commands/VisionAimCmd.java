@@ -32,14 +32,20 @@ public class VisionAimCmd extends CommandBase {
 	}
 
 	@Override
-	//go to 1.46.39.200:5800 to see camera output and tune it
+	//go to 10.46.39.11:5800 to see camera output and tune it
+	/*
+	things to complete:
+	fine tune to inner goal
+	fix shroud
+	work on speed
+	*/
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
-		double KpRotTurret = 0.005;
-		double constantForceTurret = 0.005;
-		double KpRotShroud = -0.0055;
-		double constantForceShroud = 0.0055;
-		double angleTolerance = 5;// Deadzone for the angle control loop
+		double KpRotTurret = 0.0035;
+		double constantForceTurret = 0.0035;
+		double KpRotShroud = -0.0055;//need to adjust
+		double constantForceShroud = 0.0055;//need to adjust
+		double angleTolerance = 0.25;// Deadzone for the angle control loop
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
 		if(Constants.STCam.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
@@ -51,15 +57,15 @@ public class VisionAimCmd extends CommandBase {
 				turret.setTurret(0);
 				SmartDashboard.putBoolean("Spinning",false);
 			}
-			SmartDashboard.putNumber("Shroud Degs", shroud.getDegrees());
+			/*SmartDashboard.putNumber("Shroud Degs", shroud.getDegrees());
 			SmartDashboard.putNumber("pitch", pitch);
-			if(shroud.getDegrees()>-50&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
+			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
 				shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
 				SmartDashboard.putBoolean("Up down", true);
 			}else{
 				shroud.setShroud(0);
 				SmartDashboard.putBoolean("Up down", false);
-			}
+			}**/
 		}
 	}
 

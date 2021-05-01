@@ -34,7 +34,7 @@ public class ShroudSys extends SubsystemBase {
 
 		//Encoder initialization
 		shroudEncoder = new Encoder(4,5, true);
-		//shroudEncoder.reset();
+		shroudEncoder.reset();
 		// PID Initialization
 		this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, 0);
 		this.pid.setSetpoint(0);
@@ -42,6 +42,7 @@ public class ShroudSys extends SubsystemBase {
 		SmartDashboard.putNumber("P", Constants.SHROUD_KP);
 		SmartDashboard.putNumber("I", Constants.SHROUD_KI);
 		SmartDashboard.putNumber("D", 0);
+		SmartDashboard.putNumber("SD", getDegrees());
 	}
 
 	public double getDegrees() {
@@ -74,7 +75,7 @@ public class ShroudSys extends SubsystemBase {
 		SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);
-		//shroud.set(pidOut); uncomment for future use FOR MANUAL CONTROL OF SHROUD
+		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 
 	}
 
