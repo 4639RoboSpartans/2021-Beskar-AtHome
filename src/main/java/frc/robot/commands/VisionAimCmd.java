@@ -38,6 +38,8 @@ public class VisionAimCmd extends CommandBase {
 	fine tune to inner goal
 	fix shroud
 	work on speed
+	distance is 5.5 in
+	set conditition to not allow intake until flywheel up to speed
 	*/
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
