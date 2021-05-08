@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
 
 		//Reset the encoders on the shroud encoder
 		m_robotContainer.getShroud().resetEncoder();
-		m_robotContainer.resetDesiredPostition();
+		//m_robotContainer.resetDesiredPostition();
 		
 		m_robotContainer.m_drive.m_LeftEncoder.reset();
 		m_robotContainer.m_drive.m_RightEncoder.reset();
@@ -125,9 +125,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
+		SmartDashboard.putNumber("Shroud deg: ", m_robotContainer.getShroud().getDegrees());
+		/*SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
 		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_RightEncoder.getDistance());
-		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());
+		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());*/
 	}
 
 	@Override
