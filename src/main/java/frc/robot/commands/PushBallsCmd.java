@@ -7,6 +7,7 @@
 package frc.robot.commands;
 import frc.robot.subsystems.HopperSys;
 import frc.robot.subsystems.IntakeSys;
+import frc.robot.subsystems.KickerSys;
 import frc.robot.subsystems.ShooterSys;
 
 import command.CommandBase;

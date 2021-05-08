@@ -58,6 +58,7 @@ public class RobotContainer {
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;
 	private final VisionAimCmd aim = new VisionAimCmd(m_turret, m_shroud);
+	public double tempspeed  = 2500;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -145,9 +146,12 @@ public class RobotContainer {
 		m_oi.getPovButton(1, 0)
 				.whileHeld(new ExecuteEndCommand(() -> m_intake.setPivot(0.7), () -> m_intake.setPivot(0), m_intake));
 
-		// Run Hopper In
-		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(() -> m_hopper.setHopper(0.5), m_hopper));
-		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(() -> m_intake.setIntake(0.5), m_intake));	
+		// Auto Shoot balls
+
+		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, tempspeed));
+		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(()->m_kicker.setKicker(0.5), m_kicker));
+		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld((m_shooter.isAtSpeed())?new InstantCommand(() -> m_hopper.setHopper(0.5), m_hopper):new InstantCommand(() -> m_hopper.setHopper(0), m_hopper));
+		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld((m_shooter.isAtSpeed())?new InstantCommand(() -> m_intake.setIntake(0.5), m_intake):new InstantCommand(() -> m_intake.setIntake(0), m_intake));	
 		// Bring intake down
 		m_oi.getPovButton(1, 180)
 				.whileHeld(new ExecuteEndCommand(() -> m_intake.setPivot(-0.5), () -> m_intake.setPivot(0), m_intake));
@@ -159,7 +163,7 @@ public class RobotContainer {
 				.whileHeld(new InstantCommand(() -> m_climber.setPistons(DoubleSolenoid.Value.kReverse), m_climber));
 
 		// Move kicker wheel back to clear ball and then spool the shooter - X_Button changed to B_Button
-		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, 10000.0));
+		//m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, 10000.0));
 		// This command shall not be used anymore. It creates problems with the battery, kicker gearbox and motor.
 		//m_oi.getButton(1, Buttons.B_BUTTON)
 		//		.whileHeld(new ExecuteEndCommand(() -> m_kicker.setKicker(-0.5), () -> m_kicker.setKicker(0), m_kicker)
@@ -168,9 +172,12 @@ public class RobotContainer {
 		//m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(() -> m_intake.setIntake(-0.5), m_intake));
 
 		// Use the kicker to push the balls in
-		m_oi.getButton(0, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
+		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
 	}
-
+	public void shooterInfo(){
+		SmartDashboard.putBoolean("UP TO SPEED", m_shooter.isAtSpeed());
+		SmartDashboard.putNumber("SPEED OF SHOOTER", m_shooter.getSpeed());
+	}
 	/**
 	 * Use this to pass the autonomous command to the main {@link Robot} class.
 	 *

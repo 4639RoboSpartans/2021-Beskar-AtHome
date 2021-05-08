@@ -25,7 +25,7 @@ public class SpoolShooterCmd extends CommandBase {
 	@Override
 	public void initialize() {
 		// code expects rps but rpm is easier to use
-		shooter.setShooter(rpm / 60.0);
+		shooter.setShooter(rpm );
 		kicker.setKicker(1.0);
 	}
 

@@ -126,6 +126,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("Shroud deg: ", m_robotContainer.getShroud().getDegrees());
+		m_robotContainer.shooterInfo();
+	//	m_robotContainer.tempspeed =  SmartDashboard.getNumber("SHOOTER SPEED", 0);
 		/*SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
 		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_RightEncoder.getDistance());
 		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());*/

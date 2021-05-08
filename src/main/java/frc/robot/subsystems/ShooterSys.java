@@ -41,13 +41,13 @@ public class ShooterSys extends SubsystemBase {
 		pid.setTolerance(3);
 	}
 
-	private double getSpeed() {
+	public double getSpeed() {
 		// rotations per second
-		return topShooter.getSelectedSensorVelocity() * (600.0 / 4096) * (36.0/(16*3.75)) ; //(4096.0 * 16.0 / 36.0) * 10;
+		return topShooter.getSelectedSensorVelocity() * (600.0 / 4096) ; //(4096.0 * 16.0 / 36.0) * 10;
 	}
 
 	public boolean isAtSpeed() {
-		return speedDesired != 0 && pid.atSetpoint();
+		return getSpeed() >2200;
 	}
 
 	public void setShooter(double speed) {
@@ -61,8 +61,9 @@ public class ShooterSys extends SubsystemBase {
 			pid.reset();
 			topShooter.set(0);
 		} else {
-			topShooter.setVoltage(
-					pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired));
+			double currentVoltage = speedDesired/2800*12;//pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired);
+			SmartDashboard.putNumber("VOLTAGE TO SHOOTER", currentVoltage);
+			topShooter.setVoltage(currentVoltage);
 		}
 		SmartDashboard.putNumber("Shooter_SpeedDesired", speedDesired);
 		SmartDashboard.putNumber("Shooter_SpeedActual", getSpeed());

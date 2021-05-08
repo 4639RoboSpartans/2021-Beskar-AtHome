@@ -15,18 +15,22 @@ import command.SubsystemBase;
 
 public class KickerSys extends SubsystemBase {
 	private final WPI_TalonSRX kicker;
-
+	private double currentSpeed;
 	public KickerSys() {
 		this.kicker = new WPI_TalonSRX(Constants.KICKER_CAN);
 		kicker.configFactoryDefault();
 		kicker.setNeutralMode(NeutralMode.Coast);
 		kicker.setSensorPhase(true);
+		currentSpeed =0;
 	}
 
 	public void setKicker(double num) {
+		currentSpeed = num;
 		kicker.set(num);
 	}
-
+	public boolean uptoSpeed(){
+		return currentSpeed>0;
+	}
 	@Override
 	public void periodic() {
 	}
