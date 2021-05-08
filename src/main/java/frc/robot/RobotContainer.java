@@ -107,23 +107,23 @@ public class RobotContainer {
 
 	// if the shroud is set to a position less than 3, then this will increase the
 	// position value by 1, and then return that position.
-	private int goDown() {
+/*	private int goDown() {
 		SmartDashboard.putString("DB/String 5", "GoUp: True");
 		if (shroudPos < 3) {
 			return ++this.shroudPos;
 		} else
 			return this.shroudPos;
-	}
+	}*/
 
 	// if the shroud is set to a position less than 4, then this will increase the
 	// position value by 1, and then return that position.
-	private int goUp() {
+	/*private int goUp() {
 		SmartDashboard.putString("DB/String 5", "GoDown: True");
 		if (shroudPos > 0) {
 			return --this.shroudPos;
 		} else
 			return this.shroudPos;
-	}
+	}*/
 
 	/**
 	 * Use this method to define your button->command mappings. Buttons can be
@@ -134,8 +134,8 @@ public class RobotContainer {
 	private void configureButtonBindings() {
 		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(aim);
 		// Toggle Shroud Presets
-		m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
-		m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
+		//m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
+		//m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
 
 		SmartDashboard.putString("DB/String 1", "RightPOV: " + m_oi.getPovButton(1, 90).get());
 		SmartDashboard.putString("DB/String 2", "LeftPOV: " + m_oi.getPovButton(1, 270).get());
@@ -194,9 +194,9 @@ public class RobotContainer {
 		return this.m_shroud;
 	}
 
-	public void resetDesiredPostition()
+	/*public void resetDesiredPostition()
 	{
 		this.shroudPos = 0;
 		m_shroud.setDesiredPosition(shroudPos);
-	}
+	}*/
 }

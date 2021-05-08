@@ -47,27 +47,42 @@ public class VisionAimCmd extends CommandBase {
 		double constantForceTurret = 0.0035;
 		double KpRotShroud = -0.0055;//need to adjust
 		double constantForceShroud = 0.0055;//need to adjust
-		double angleTolerance = 0.25;// Deadzone for the angle control loop
+		double angleTolerance = 0;// Deadzone for the angle control loop
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
 		if(Constants.STCam.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
 			if(Math.abs(yaw)>angleTolerance){
-				turret.setTurret(KpRotTurret*yaw+constantForceTurret);
+				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
+				//check to see if there is a encoder and reset pos after turning
 				SmartDashboard.putBoolean("Spinning", true);
+				if(yaw<0){
+					turret.setTurret(KpRotTurret*yaw-constantForceTurret);
+				}else{
+					turret.setTurret(KpRotTurret*yaw+constantForceTurret);
+				}
 			}else{
 				turret.setTurret(0);
 				SmartDashboard.putBoolean("Spinning",false);
 			}
-			/*SmartDashboard.putNumber("Shroud Degs", shroud.getDegrees());
-			SmartDashboard.putNumber("pitch", pitch);
+
+			//commenting RC 108-126 137 138 199-203 Shroudsys 52-63 71-78 39-45
 			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
 				shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
 				SmartDashboard.putBoolean("Up down", true);
+				if(pitch<0){
+					shroud.setShroud(KpRotShroud*pitch-constantForceShroud);
+				}else{
+					shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
+				}
 			}else{
+				//reset the shroud to original pos
+				/*if(shroud.getDegrees()>0){
+					shroud.setShroud(KpRotShroud*shroud.getDegrees()+constantForceShroud);
+				}*/
 				shroud.setShroud(0);
 				SmartDashboard.putBoolean("Up down", false);
-			}**/
+			}
 		}
 	}
 
