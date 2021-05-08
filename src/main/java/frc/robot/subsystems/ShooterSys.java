@@ -7,9 +7,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -29,6 +30,7 @@ public class ShooterSys extends SubsystemBase {
 		topShooter.configFactoryDefault();
 		topShooter.setNeutralMode(NeutralMode.Brake);
 		topShooter.setSensorPhase(true);
+		topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100); //Timeout 100ms
 
 		this.bottomShooter = new WPI_VictorSPX(Constants.BOTTOM_SHOOTER_CAN);
 		bottomShooter.configFactoryDefault();
@@ -41,7 +43,7 @@ public class ShooterSys extends SubsystemBase {
 
 	private double getSpeed() {
 		// rotations per second
-		return topShooter.getSelectedSensorVelocity() / (4096.0 * 16.0 / 36.0) * 10;
+		return topShooter.getSelectedSensorVelocity() * (600.0 / 4096) * (36.0/(16*3.75)) ; //(4096.0 * 16.0 / 36.0) * 10;
 	}
 
 	public boolean isAtSpeed() {
@@ -62,5 +64,9 @@ public class ShooterSys extends SubsystemBase {
 			topShooter.setVoltage(
 					pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired));
 		}
+		SmartDashboard.putNumber("Shooter_SpeedDesired", speedDesired);
+		SmartDashboard.putNumber("Shooter_SpeedActual", getSpeed());
+
+
 	}
 }

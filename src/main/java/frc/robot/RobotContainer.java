@@ -158,16 +158,14 @@ public class RobotContainer {
 		m_oi.getButton(1, Buttons.A_BUTTON)
 				.whileHeld(new InstantCommand(() -> m_climber.setPistons(DoubleSolenoid.Value.kReverse), m_climber));
 
-		// Move kicker wheel back to clear ball and then spool the shooter
-		m_oi.getButton(1, Buttons.X_BUTTON)
-				.whileHeld(new ExecuteEndCommand(() -> m_kicker.setKicker(0), () -> m_kicker.setKicker(0), m_kicker)
-						.withTimeout(0.1).andThen(new SpoolShooterCmd(m_shooter, m_kicker, 3800)));
-
-		m_oi.getButton(1, Buttons.B_BUTTON)
-				.whileHeld(new ExecuteEndCommand(() -> m_kicker.setKicker(-0.5), () -> m_kicker.setKicker(0), m_kicker)
-						.withTimeout(0.1).andThen(new SpoolShooterCmd(m_shooter, m_kicker, 4300)));
-		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(() -> m_hopper.setHopper(-0.5), m_hopper));
-		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(() -> m_intake.setIntake(-0.5), m_intake));
+		// Move kicker wheel back to clear ball and then spool the shooter - X_Button changed to B_Button
+		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, 10000.0));
+		// This command shall not be used anymore. It creates problems with the battery, kicker gearbox and motor.
+		//m_oi.getButton(1, Buttons.B_BUTTON)
+		//		.whileHeld(new ExecuteEndCommand(() -> m_kicker.setKicker(-0.5), () -> m_kicker.setKicker(0), m_kicker)
+		//				.withTimeout(0.1).andThen(new SpoolShooterCmd(m_shooter, m_kicker, 4300)));
+		//m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(() -> m_hopper.setHopper(-0.5), m_hopper));
+		//m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(() -> m_intake.setIntake(-0.5), m_intake));
 
 		// Use the kicker to push the balls in
 		m_oi.getButton(0, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
