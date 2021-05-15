@@ -27,7 +27,7 @@ public class PushBallsCmd extends CommandBase {
 	@Override
 	public void execute() {
 		if (shooter.isAtSpeed()) {
-			hopper.setHopper(0.5);
+			hopper.setHopper(0.7);
 			intake.setIntake(0.5);
 		}
 	}
