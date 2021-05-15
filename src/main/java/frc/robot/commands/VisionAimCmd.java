@@ -15,11 +15,17 @@ import frc.robot.subsystems.ShroudSys;
 import frc.robot.subsystems.TurretSys;
 import frc.robot.OI;
 import frc.robot.Constants.Buttons;
+
+import org.photonvision.PhotonUtils;
+
 import command.CommandBase;
 //BUTTON TO USE THIS PROGRAM IS THE LEFT BUMPER ON THE SECOND REMOTE, OR REMOTE #1
 public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
 	private final ShroudSys shroud;
+	private static final double CameraHeight = 0;//assign values
+	private static  double CameraPitch = 0;//assign values
+	private static final double TargetHeight = 2.49555;
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -52,6 +58,8 @@ public class VisionAimCmd extends CommandBase {
 		if(Constants.STCam.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
+			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
+										Math.toRadians(CameraPitch+((shroud.shroudEncoder.getRaw()+0.0)/256)*360), Math.toRadians(pitch));
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning

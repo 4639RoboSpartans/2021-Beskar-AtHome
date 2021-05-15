@@ -21,8 +21,8 @@ import command.SubsystemBase;
 
 public class ShroudSys extends SubsystemBase {
 	private final WPI_VictorSPX shroud;
-	final PIDController pid;
-	private final Encoder shroudEncoder;
+	//final PIDController pid;
+	public final Encoder shroudEncoder;
 	private double positionDesired;
 	private double pidOut;
 
