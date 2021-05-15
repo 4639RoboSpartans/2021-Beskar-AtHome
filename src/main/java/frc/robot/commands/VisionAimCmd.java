@@ -66,7 +66,7 @@ public class VisionAimCmd extends CommandBase {
 				SmartDashboard.putBoolean("Spinning",false);
 			}
 
-			//commenting RC 108-126 137 138 199-203 Shroudsys 52-63 71-78 39-45
+			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
 			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
 				shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
 				SmartDashboard.putBoolean("Up down", true);
