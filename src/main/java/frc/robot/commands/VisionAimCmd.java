@@ -23,9 +23,10 @@ import command.CommandBase;
 public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
 	private final ShroudSys shroud;
-	private static final double CameraHeight = 0;//assign values
-	private static  double CameraPitch = 0;//assign values
+	private static final double CameraHeight = 0;//assign values in meters
+	private static  double CameraPitch = 0;//assign values in radians
 	private static final double TargetHeight = 2.49555;
+	private static final double DistTurMidToCam = 0.1397;//5.5 inches in meters
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -60,6 +61,7 @@ public class VisionAimCmd extends CommandBase {
 			double pitch = result.getBestTarget().getPitch();
 			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
 										Math.toRadians(CameraPitch+((shroud.shroudEncoder.getRaw()+0.0)/256)*360), Math.toRadians(pitch));
+			double additionalAngle = 180-(90+Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget)));//contains the angle offset
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
