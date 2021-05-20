@@ -62,11 +62,11 @@ public class VisionAimCmd extends CommandBase {
 			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
 										Math.toRadians(CameraPitch+((shroud.shroudEncoder.getRaw()+0.0)/256)*360), Math.toRadians(pitch));
 			double additionalAngle = 180-(90+Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget)));//contains the angle offset
-			if(Math.abs(yaw)>angleTolerance){
+			if(Math.abs(yaw)>/*Math.abs(additionalAngle)+*/angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
 				SmartDashboard.putBoolean("Spinning", true);
-				if(yaw<0){
+				if(yaw<0/*+additionalAngle*/ ){
 					turret.setTurret(KpRotTurret*yaw-constantForceTurret);
 				}else{
 					turret.setTurret(KpRotTurret*yaw+constantForceTurret);
