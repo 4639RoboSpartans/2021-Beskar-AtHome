@@ -133,7 +133,7 @@ public class RobotContainer {
 	 */
 	private void configureButtonBindings() {
 		//auto aim
-		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(aim);
+		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(new VisionAimCmd(m_turret, m_shroud));
 		// Auto Shoot balls
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
 		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));

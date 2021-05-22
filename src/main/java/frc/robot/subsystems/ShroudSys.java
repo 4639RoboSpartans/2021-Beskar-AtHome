@@ -21,9 +21,9 @@ import command.SubsystemBase;
 
 public class ShroudSys extends SubsystemBase {
 	private final WPI_VictorSPX shroud;
-	//final PIDController pid;
+	final PIDController pid;
 	public final Encoder shroudEncoder;
-	private double positionDesired;
+	public double positionDesired;
 	private double pidOut;
 
 	public ShroudSys() {
@@ -36,13 +36,13 @@ public class ShroudSys extends SubsystemBase {
 		shroudEncoder = new Encoder(4,5, true);
 		shroudEncoder.reset();
 		// PID Initialization
-		/*this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, 0);
+		this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, 0);
 		this.pid.setSetpoint(0);
 		pid.setTolerance(1);
 		SmartDashboard.putNumber("P", Constants.SHROUD_KP);
 		SmartDashboard.putNumber("I", Constants.SHROUD_KI);
 		SmartDashboard.putNumber("D", 0);
-		SmartDashboard.putNumber("SD", getDegrees());*/
+		SmartDashboard.putNumber("SD", getDegrees());
 	}
 
 	public double getDegrees() {
@@ -68,14 +68,14 @@ public class ShroudSys extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		/*pidOut = pid.calculate(getDegrees(), positionDesired) / 1000.0;
+		pidOut = pid.calculate(getDegrees(), positionDesired) / 1000.0;
 
 		pid.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
 				SmartDashboard.getNumber("D", 0));
-		SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
+		/*SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
-		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);
-		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD*/
+		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);*/
+		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 		
 	}
 
