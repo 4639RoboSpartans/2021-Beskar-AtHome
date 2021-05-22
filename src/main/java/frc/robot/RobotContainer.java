@@ -8,6 +8,8 @@ package frc.robot;
 
 import static frc.robot.Constants.Buttons;
 
+import javax.swing.ButtonGroup;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -134,9 +136,12 @@ public class RobotContainer {
 	private void configureButtonBindings() {
 		//auto aim
 		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(new VisionAimCmd(m_turret, m_shroud));
+		//resetShroud pos
+		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new ExecuteEndCommand(()->m_shroud.resetShroud(), ()->m_shroud.resetShroud(), m_shroud));
 		// Auto Shoot balls
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
 		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
+		
 		// Toggle Shroud Presets
 		//m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		//m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
@@ -201,10 +206,10 @@ public class RobotContainer {
 	{
 		return this.m_shroud;
 	}
-/*
+
 	public void resetDesiredPostition()
 	{
 		this.shroudPos = 0;
 		m_shroud.setDesiredPosition(shroudPos);
-	}*/
+	}
 }

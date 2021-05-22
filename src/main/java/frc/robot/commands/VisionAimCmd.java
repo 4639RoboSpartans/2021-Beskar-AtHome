@@ -27,6 +27,7 @@ public class VisionAimCmd extends CommandBase {
 	private static  double CameraPitch = 0.8727;//assign values in radians
 	private static final double TargetHeight = 2.49555;
 	private static final double DistTurMidToCam = 0.1397;//5.5 inches in meters
+	private double angleTolerance = 0.25;// Deadzone for the angle control loop
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -35,6 +36,14 @@ public class VisionAimCmd extends CommandBase {
 			SmartDashboard.putBoolean("camera Found ", true);
 		}else{
 			SmartDashboard.putBoolean("camera Found", false);
+		}
+		var result = Constants.STCam.getLatestResult();
+		double pitch = result.getBestTarget().getPitch();
+		if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
+			pitch-=25;
+			double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
+			//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
+			shroud.positionDesired = temp;
 		}
 	}
 
@@ -52,9 +61,8 @@ public class VisionAimCmd extends CommandBase {
 		var result = Constants.STCam.getLatestResult();
 		double KpRotTurret = 0.0055;
 		double constantForceTurret = 0.0075;
-		double KpRotShroud = -0.007;//need to adjust
-		double constantForceShroud = 0.007;//need to adjust
-		double angleTolerance = 0.25;// Deadzone for the angle control loop
+		//double KpRotShroud = -0.007;//need to adjust
+		//double constantForceShroud = 0.007;//need to adjust
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
 		if(Constants.STCam.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
@@ -64,7 +72,7 @@ public class VisionAimCmd extends CommandBase {
 			SmartDashboard.putNumber("distancetoTarget", distanceToTarget);
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
-			yaw-=additionalAngle;
+			yaw-=15;
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
@@ -76,22 +84,9 @@ public class VisionAimCmd extends CommandBase {
 			}
 
 			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
-			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
-				pitch-=25;
-				SmartDashboard.putNumber("ShroudDeg", shroud.getDegrees());
-				SmartDashboard.putNumber("pitch", pitch);
-				double temp = (pitch/360)*500;
-				//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
-				shroud.positionDesired = temp;
-				SmartDashboard.putBoolean("Up down", true);
-			}else{
-				//reset the shroud to original pos
-				/*if(shroud.getDegrees()>0){
-					shroud.setShroud(KpRotShroud*shroud.getDegrees()+constantForceShroud);
-				}*/
+			/*else{
 				shroud.setShroud(0);
-				SmartDashboard.putBoolean("Up down", false);
-			}
+			}*/
 		}
 	}
 
