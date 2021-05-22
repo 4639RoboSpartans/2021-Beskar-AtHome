@@ -23,8 +23,8 @@ import command.CommandBase;
 public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
 	private final ShroudSys shroud;
-	private static final double CameraHeight = 0;//assign values in meters
-	private static  double CameraPitch = 0;//assign values in radians
+	private static final double CameraHeight = 0.6223;//assign values in meters
+	private static  double CameraPitch = 0.8727;//assign values in radians
 	private static final double TargetHeight = 2.49555;
 	private static final double DistTurMidToCam = 0.1397;//5.5 inches in meters
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
