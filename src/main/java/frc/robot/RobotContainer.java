@@ -58,7 +58,6 @@ public class RobotContainer {
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;
 	private final VisionAimCmd aim = new VisionAimCmd(m_turret, m_shroud);
-	public double tempspeed  = 1700;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -147,7 +146,7 @@ public class RobotContainer {
 				.whileHeld(new ExecuteEndCommand(() -> m_intake.setPivot(0.7), () -> m_intake.setPivot(0), m_intake));
 
 		// Auto Shoot balls
-		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, tempspeed));
+		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
 		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(()->m_kicker.setKicker(0.5), m_kicker));
 		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld((m_shooter.isAtSpeed())?new InstantCommand(() -> m_hopper.setHopper(0.5), m_hopper):new InstantCommand(() -> m_hopper.setHopper(0), m_hopper));
 		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld((m_shooter.isAtSpeed())?new InstantCommand(() -> m_intake.setIntake(0.5), m_intake):new InstantCommand(() -> m_intake.setIntake(0), m_intake));	

@@ -47,7 +47,8 @@ public class ShooterSys extends SubsystemBase {
 	}
 
 	public boolean isAtSpeed() {
-		return getSpeed() >1500;
+		final double currentSpeed = getSpeed();
+		return (currentSpeed > (speedDesired - 5) && currentSpeed < (speedDesired + 5)) && speedDesired != 0;
 	}
 
 	public void setShooter(double speed) {

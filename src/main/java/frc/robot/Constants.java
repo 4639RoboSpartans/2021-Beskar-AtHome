@@ -48,9 +48,10 @@ public final class Constants {
 	public static final int TURRET_CAN = 7;
 	public static final int TOP_SHOOTER_CAN = 8;
 	public static final int BOTTOM_SHOOTER_CAN = 9;
-	public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.0384, 0.0116, 0.0128);
-	public static final double SHOOTER_KP = 0.2;
+	public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.00384, 0.00116 * 3, 0.00128);
+	public static final double SHOOTER_KP = 0.15;
 	public static final double SHOOTER_PID_TOLERANCE = 0.5;
+	public static final double TEMPSPEED = 1475;
 
 	public static final int INTAKE_WHEEL_CAN = 14;
 	public static final int INTAKE_PIVOT_CAN = 5;
