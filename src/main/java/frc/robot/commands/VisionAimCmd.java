@@ -31,20 +31,17 @@ public class VisionAimCmd extends CommandBase {
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
+		//var result = null;
 		addRequirements(turret);
 		if (Constants.STCam!=null){
 			SmartDashboard.putBoolean("camera Found ", true);
+			//result = Constants.STCam.getLatestResult();
 		}else{
 			SmartDashboard.putBoolean("camera Found", false);
 		}
-		var result = Constants.STCam.getLatestResult();
-		double pitch = result.getBestTarget().getPitch();
-		if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
-			pitch-=25;
-			double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
-			//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
-			shroud.positionDesired = temp;
-		}
+		
+		//double pitch = result.getBestTarget().getPitch();
+		
 	}
 
 	@Override
@@ -84,6 +81,12 @@ public class VisionAimCmd extends CommandBase {
 			}
 
 			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
+			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
+				pitch-=25;
+				double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
+				//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
+				shroud.positionDesired = temp;
+			}
 			/*else{
 				shroud.setShroud(0);
 			}*/
