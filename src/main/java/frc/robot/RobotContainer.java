@@ -132,7 +132,11 @@ public class RobotContainer {
 	 * passing it to a {@link command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
+		//auto aim
 		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(aim);
+		// Auto Shoot balls
+		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
+		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
 		// Toggle Shroud Presets
 		//m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		//m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
@@ -145,8 +149,7 @@ public class RobotContainer {
 		m_oi.getPovButton(1, 0)
 				.whileHeld(new ExecuteEndCommand(() -> m_intake.setPivot(0.7), () -> m_intake.setPivot(0), m_intake));
 
-		// Auto Shoot balls
-		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
+		
 		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new InstantCommand(()->m_kicker.setKicker(0.5), m_kicker));
 		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld((m_shooter.isAtSpeed())?new InstantCommand(() -> m_hopper.setHopper(0.5), m_hopper):new InstantCommand(() -> m_hopper.setHopper(0), m_hopper));
 		//m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld((m_shooter.isAtSpeed())?new InstantCommand(() -> m_intake.setIntake(0.5), m_intake):new InstantCommand(() -> m_intake.setIntake(0), m_intake));	
@@ -170,7 +173,7 @@ public class RobotContainer {
 		//m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(() -> m_intake.setIntake(-0.5), m_intake));
 
 		// Use the kicker to push the balls in
-		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
+		
 	}
 	public void shooterInfo(){
 		SmartDashboard.putBoolean("UP TO SPEED", m_shooter.isAtSpeed());
