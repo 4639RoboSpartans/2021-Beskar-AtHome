@@ -56,8 +56,6 @@ public class VisionAimCmd extends CommandBase {
 	*/
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
-		double KpRotTurret = 0.0055;
-		double constantForceTurret = 0.0075;
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
@@ -74,7 +72,7 @@ public class VisionAimCmd extends CommandBase {
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
 				SmartDashboard.putBoolean("Spinning", true);
-				turret.setTurret(KpRotTurret*yaw+constantForceTurret);
+				turret.setTurret(Constants.KP_ROT_TURRET*yaw+Constants.CONSTANT_FORCE_TURRET);
 			}else{
 				turret.setTurret(0);
 				SmartDashboard.putBoolean("Spinning",false);
@@ -88,7 +86,7 @@ public class VisionAimCmd extends CommandBase {
 				shroud.positionDesired = temp;
 			}
 			/*else{
-				shroud.setShroud(0);
+				//shroud.setShroud(0);
 			}*/
 		}
 	}
