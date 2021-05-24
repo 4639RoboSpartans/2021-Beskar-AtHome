@@ -63,7 +63,7 @@ public class VisionAimCmd extends CommandBase {
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
 			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
-										Math.toRadians(CameraPitch+((shroud.shroudEncoder.getRaw()+0.0)/256)*360), Math.toRadians(pitch));
+										Math.toRadians(CameraPitch+((shroud.getDegrees()+0.0)/500)*360), Math.toRadians(pitch));
 			SmartDashboard.putNumber("distancetoTarget", distanceToTarget);
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
