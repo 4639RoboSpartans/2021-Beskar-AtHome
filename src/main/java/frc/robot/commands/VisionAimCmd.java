@@ -79,8 +79,8 @@ public class VisionAimCmd extends CommandBase {
 			}
 
 			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
+			pitch-=25;
 			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
-				pitch-=25;
 				double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
 				//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
 				shroud.positionDesired = temp;
