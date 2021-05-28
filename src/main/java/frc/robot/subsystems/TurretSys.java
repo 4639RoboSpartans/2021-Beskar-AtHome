@@ -32,9 +32,12 @@ public class TurretSys extends SubsystemBase {
 		return turret.getSelectedSensorPosition();
 	}
 	public void resetTurret(){
-		if(getDegrees()!=-200){
-			setTurret(Constants.KP_ROT_TURRET*((getDegrees()-200)/100)+Constants.CONSTANT_FORCE_TURRET);
-		}
+		double defAngle = -200;
+		double degs = getDegrees()+defAngle;
+		if(degs<0){
+			setTurret(Constants.KP_ROT_TURRET*(degs/100)+Constants.CONSTANT_FORCE_TURRET);
+		}else
+			setTurret(Constants.KP_ROT_TURRET*(degs/100)-Constants.CONSTANT_FORCE_TURRET);
 	}
 	@Override
 	public void periodic() {

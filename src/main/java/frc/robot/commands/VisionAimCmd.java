@@ -55,7 +55,13 @@ public class VisionAimCmd extends CommandBase {
 	set conditition to not allow intake until flywheel up to speed
 	*/
 	public void execute() {
-	
+		/*ToDo:
+		Properly configure cam settings(HCS)
+		finetune aiming and shooting(maybe done)
+		merge aiming and shooting to right bumper,not immediate
+		fix reset B button
+		change deg offset from different distance
+		*/
 		var result = Constants.STCam.getLatestResult();
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
@@ -68,7 +74,8 @@ public class VisionAimCmd extends CommandBase {
 			SmartDashboard.putNumber("distancetoTarget", distanceToTarget);
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
-			yaw-=7;
+			//if(distanceToTarget)
+			yaw-=7;	 
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
