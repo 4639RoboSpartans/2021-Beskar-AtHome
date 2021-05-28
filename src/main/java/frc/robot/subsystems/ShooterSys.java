@@ -61,10 +61,10 @@ public class ShooterSys extends SubsystemBase {
 		if (speedDesired == 0) {
 			pid.reset();
 			topShooter.set(0);
-		} else {
+		} else {	
 			double currentVoltage = /*speedDesired/2800*12;*/pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired);
 			SmartDashboard.putNumber("VOLTAGE TO SHOOTER", currentVoltage);
-			topShooter.setVoltage(currentVoltage);
+			topShooter.setVoltage(currentVoltage);	
 		}
 		SmartDashboard.putNumber("Shooter_SpeedDesired", speedDesired);
 		SmartDashboard.putNumber("Shooter_SpeedActual", getSpeed());

@@ -19,8 +19,8 @@ import org.photonvision.PhotonCamera;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-	public static final double KP_ROT_TURRET = 0.0055;
-	public static final double CONSTANT_FORCE_TURRET = 0.0075;
+	public static double KP_ROT_TURRET = 0.006;//0.0055
+	public static double CONSTANT_FORCE_TURRET = 0.1;//0.0075
 	public static PhotonCamera STCam = new PhotonCamera("Aimbot9000");
 
 	public static final String TURRET_CAMERA_NAME = "";
@@ -40,8 +40,8 @@ public final class Constants {
 
 	// SHROUD CONSTANTS
 	public static final int SHROUD_CAN = 6; // the CAN 10 was rassigned to the Shroud.
-	public static final double SHROUD_KP = 3.0;
-	public static final double SHROUD_KI = 0.1;
+	public static final double SHROUD_KP = 3.5;//3.
+	public static final double SHROUD_KI = 0.12;//0.1
 	public static final double SHROUD_PRESET_0 = 0.0;
 	public static final double SHROUD_PRESET_1 = 205.0;
 	public static final double SHROUD_PRESET_2 = 335.0;
@@ -53,7 +53,7 @@ public final class Constants {
 	public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.00384, 0.00116 * 3, 0.00128);
 	public static final double SHOOTER_KP = 0.15;
 	public static final double SHOOTER_PID_TOLERANCE = 0.5;
-	public static final double TEMPSPEED = 1500;
+	public static final double TEMPSPEED = 1650;//1500
 
 	public static final int INTAKE_WHEEL_CAN = 14;
 	public static final int INTAKE_PIVOT_CAN = 5;

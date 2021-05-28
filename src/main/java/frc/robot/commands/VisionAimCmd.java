@@ -27,7 +27,7 @@ public class VisionAimCmd extends CommandBase {
 	private static  double CameraPitch = 0.8727;//assign values in radians
 	private static final double TargetHeight = 2.49555;
 	private static final double DistTurMidToCam = 0.1397;//5.5 inches in meters
-	private double angleTolerance = 0.25;// Deadzone for the angle control loop
+	private double angleTolerance = 0;// Deadzone for the angle control loop
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -55,6 +55,7 @@ public class VisionAimCmd extends CommandBase {
 	set conditition to not allow intake until flywheel up to speed
 	*/
 	public void execute() {
+	
 		var result = Constants.STCam.getLatestResult();
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
@@ -67,19 +68,22 @@ public class VisionAimCmd extends CommandBase {
 			SmartDashboard.putNumber("distancetoTarget", distanceToTarget);
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
-			yaw-=15;
+			yaw-=7;
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
 				SmartDashboard.putBoolean("Spinning", true);
+				if(yaw<0){
 				turret.setTurret(Constants.KP_ROT_TURRET*yaw+Constants.CONSTANT_FORCE_TURRET);
+				}else
+				turret.setTurret(Constants.KP_ROT_TURRET*yaw-Constants.CONSTANT_FORCE_TURRET);
 			}else{
 				turret.setTurret(0);
 				SmartDashboard.putBoolean("Spinning",false);
 			}
 
 			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
-			pitch-=25;
+			pitch-=50;
 			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
 				double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
 				//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);

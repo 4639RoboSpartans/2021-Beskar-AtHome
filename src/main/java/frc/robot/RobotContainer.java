@@ -54,7 +54,7 @@ public class RobotContainer {
 	private final HopperSys m_hopper = new HopperSys();
 	private final ShooterSys m_shooter= new ShooterSys();
 	private final KickerSys m_kicker= new KickerSys();
-	private final TurretSys m_turret= new TurretSys();
+	public final TurretSys m_turret= new TurretSys();
 	private final ShroudSys m_shroud = new ShroudSys();
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
@@ -75,11 +75,11 @@ public class RobotContainer {
 		m_drive.setDefaultCommand(new ManualDriveCmd(m_drive, m_oi));
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
-				m_hopper.setHopper(-0.2);
-				m_intake.setIntake(0.5);
+				m_hopper.setHopper(-0.1);
+				m_intake.setIntake(0.4);
 			} else if (m_oi.getAxis(1, Constants.Axes.LEFT_TRIGGER) > 0) {
-				m_hopper.setHopper(0.0);
-				m_intake.setIntake(-0.5);
+				m_hopper.setHopper(0.1);
+				m_intake.setIntake(-0.4);
 				// } else if(m_oi.getButton(1, Constants.Buttons.RIGHT_BUMPER)) {
 				// ///ksbflwglwrglgblwg
 				// m_hopper.setHopper(0);

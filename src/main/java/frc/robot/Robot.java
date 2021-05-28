@@ -63,6 +63,8 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods. This must be called from the
 		// robot's periodic
 		// block in order for anything in the Command-based framework to work.
+		
+		SmartDashboard.putNumber("rotTurret",m_robotContainer.m_turret.getDegrees());
 		CommandScheduler.getInstance().run();
 	}
 
@@ -126,6 +128,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("Shroud deg: ", m_robotContainer.getShroud().getDegrees());
+		Constants.KP_ROT_TURRET = SmartDashboard.getNumber("KPROT", Constants.KP_ROT_TURRET);
+		Constants.CONSTANT_FORCE_TURRET = SmartDashboard.getNumber("kpconstant", Constants.CONSTANT_FORCE_TURRET);
 		m_robotContainer.shooterInfo();
 	//	m_robotContainer.tempspeed =  SmartDashboard.getNumber("SHOOTER SPEED", 0);
 		/*SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());

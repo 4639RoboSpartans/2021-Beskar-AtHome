@@ -34,7 +34,7 @@ public class TurretSys extends SubsystemBase {
 	public void resetTurret(){
 		double tolerance = 5;
 		if(Math.abs(getDegrees())>tolerance){
-			setTurret(Constants.KP_ROT_TURRET*getDegrees()+Constants.CONSTANT_FORCE_TURRET);
+			setTurret(Constants.KP_ROT_TURRET*((getDegrees()-200)/100)+Constants.CONSTANT_FORCE_TURRET);
 		}
 	}
 	@Override
