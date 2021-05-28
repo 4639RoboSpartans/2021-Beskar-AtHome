@@ -46,22 +46,14 @@ public class VisionAimCmd extends CommandBase {
 
 	@Override
 	//go to 10.46.39.11:5800 to see camera output and tune it
-	/*
-	things to complete:
-	fine tune to inner goal
-	fix shroud
-	work on speed
-	distance is 5.5 in
-	set conditition to not allow intake until flywheel up to speed
-	*/
-	public void execute() {
 		/*ToDo:
-		Properly configure cam settings(HCS)
-		finetune aiming and shooting(maybe done)
-		merge aiming and shooting to right bumper,not immediate
+		Properly set up cam settings(HCS)
+		finetune aiming and shooting(mostly, if not already, done)
+		merge aiming and shooting to right bumper,not immediate and probably not needed
 		fix reset B button
 		change deg offset from different distance
 		*/
+	public void execute() {
 		var result = Constants.STCam.getLatestResult();
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
