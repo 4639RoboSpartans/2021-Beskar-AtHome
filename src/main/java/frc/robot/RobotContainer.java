@@ -65,26 +65,21 @@ public class RobotContainer {
 	 */
 	public RobotContainer() {
 		m_compressor.setClosedLoopControl(true);
-		// Climber commands removed. RIGHT STICK is now used for the Shroud
-		// m_climber.setDefaultCommand(
-		// new ExecuteEndCommand(() -> m_climber.setClimber(m_oi.getAxis(1,
-		// Constants.Axes.RIGHT_STICK_Y)),
-		// () -> m_climber.setClimber(0), m_climber));
-		// m_climber.setPistons(DoubleSolenoid.Value.kReverse);
+		 m_climber.setDefaultCommand(
+		 new ExecuteEndCommand(() -> m_climber.setClimber(m_oi.getAxis(1,
+		 Constants.Axes.RIGHT_STICK_Y)),
+		 () -> m_climber.setClimber(0), m_climber));
+		 m_climber.setPistons(DoubleSolenoid.Value.kReverse);
 		
 		m_drive.setDefaultCommand(new ManualDriveCmd(m_drive, m_oi));
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
-				m_hopper.setHopper(-0.1);
+				m_hopper.setHopper(-0.2);
 				m_intake.setIntake(0.4);
 			} else if (m_oi.getAxis(1, Constants.Axes.LEFT_TRIGGER) > 0) {
-				m_hopper.setHopper(0.1);
+				m_hopper.setHopper(0.2);
 				m_intake.setIntake(-0.4);
-				// } else if(m_oi.getButton(1, Constants.Buttons.RIGHT_BUMPER)) {
-				// ///ksbflwglwrglgblwg
-				// m_hopper.setHopper(0);
-				// m_intake.setIntake(0);
-				// }
+				
 			} else {
 				m_hopper.setHopper(0);
 				m_intake.setIntake(0);

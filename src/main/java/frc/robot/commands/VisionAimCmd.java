@@ -51,6 +51,12 @@ public class VisionAimCmd extends CommandBase {
 		finetune aiming and shooting(mostly, if not already, done) increase speed first for consistency and then pitch
 		fix reset B button
 		change deg offset from different distance
+		image spare radio
+		fix pitch value
+		fix shroud PID
+		auto cam stream switch
+		update pi
+		reset pi default network
 		*/
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
