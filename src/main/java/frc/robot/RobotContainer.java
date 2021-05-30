@@ -60,6 +60,7 @@ public class RobotContainer {
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;
 	private final VisionAimCmd aim = new VisionAimCmd(m_turret, m_shroud);
+	private boolean cameraType = false;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
