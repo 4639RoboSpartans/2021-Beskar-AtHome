@@ -48,8 +48,7 @@ public class VisionAimCmd extends CommandBase {
 	//go to 10.46.39.11:5800 to see camera output and tune it
 		/*ToDo:
 		Properly set up cam settings(HCS)
-		finetune aiming and shooting(mostly, if not already, done)
-		merge aiming and shooting to right bumper,not immediate and probably not needed
+		finetune aiming and shooting(mostly, if not already, done) increase speed first for consistency and then pitch
 		fix reset B button
 		change deg offset from different distance
 		*/
