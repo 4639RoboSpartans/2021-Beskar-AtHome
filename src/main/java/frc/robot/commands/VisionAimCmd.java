@@ -72,7 +72,7 @@ public class VisionAimCmd extends CommandBase {
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
 			//if(distanceToTarget)
-			yaw-=7;	 
+			yaw-=4 ;	 
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
@@ -87,11 +87,13 @@ public class VisionAimCmd extends CommandBase {
 			}
 
 			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
-			pitch-=50;
+			pitch-=20;
 			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
 				double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
 				//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
 				shroud.positionDesired = temp;
+			}else if(shroud.getDegrees()<0){
+				shroud.resetEncoder();
 			}
 			/*else{
 				//shroud.setShroud(0);
