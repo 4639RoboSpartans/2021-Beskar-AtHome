@@ -20,7 +20,7 @@ public class Turret90Cmd extends CommandBase {
 
 	@Override
 	public void initialize() {
-		turret.setTurret(0.3);
+		turret.setTurret(0.2);
 	}
 
 	@Override

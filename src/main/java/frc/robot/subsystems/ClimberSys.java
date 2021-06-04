@@ -7,7 +7,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -16,7 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import command.SubsystemBase;
 
-public class ClimberSys extends SubsystemBase {
+public class ClimberSys extends SubsystemBase {	
 	private final WPI_TalonSRX leftClimber, rightClimber;
 	private final DoubleSolenoid leftPiston, rightPiston;
 
@@ -29,9 +29,9 @@ public class ClimberSys extends SubsystemBase {
 		leftClimber.configFactoryDefault();
 		leftClimber.setNeutralMode(NeutralMode.Brake);
 		leftClimber.setInverted(InvertType.InvertMotorOutput);
-		leftClimber.configReverseSoftLimitEnable(true);
+		/*leftClimber.configReverseSoftLimitEnable(true);
 		leftClimber.configForwardSoftLimitEnable(true);
-		leftClimber.configForwardSoftLimitThreshold(20_000);
+		leftClimber.configForwardSoftLimitThreshold(20_000);*/
 
 		// Resuing Motor Controller for Shroud
 		this.rightClimber = new WPI_TalonSRX(Constants.RIGHT_CLIMBER_CAN);
@@ -40,9 +40,9 @@ public class ClimberSys extends SubsystemBase {
 		rightClimber.configFactoryDefault();
 		rightClimber.setNeutralMode(NeutralMode.Brake);
 		rightClimber.follow(leftClimber);
-		rightClimber.configReverseSoftLimitEnable(true);
+		/*rightClimber.configReverseSoftLimitEnable(true);
 		rightClimber.configForwardSoftLimitEnable(true);
-		rightClimber.configForwardSoftLimitThreshold(20_000);
+		rightClimber.configForwardSoftLimitThreshold(20_000);*/
 	}
 
 	public void setPistons(DoubleSolenoid.Value value) {
@@ -51,9 +51,14 @@ public class ClimberSys extends SubsystemBase {
 	}
 
 	public void setClimber(double num) {
+		//SmartDashboard.putNumber("Climber power", num);
 		leftClimber.set(num);
+		
 	}
-
+	public void getRot(){
+		SmartDashboard.putNumber("LeftClimberEncoder", leftClimber.getSelectedSensorPosition());
+		SmartDashboard.putNumber("RightClimberEncoder", rightClimber.getSelectedSensorPosition());
+	}
 	@Override
 	public void periodic() {
 	}

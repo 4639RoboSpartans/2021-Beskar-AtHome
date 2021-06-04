@@ -131,6 +131,9 @@ public class Robot extends TimedRobot {
 		Constants.KP_ROT_TURRET = SmartDashboard.getNumber("KPROT", Constants.KP_ROT_TURRET);
 		Constants.CONSTANT_FORCE_TURRET = SmartDashboard.getNumber("kpconstant", Constants.CONSTANT_FORCE_TURRET);
 		m_robotContainer.shooterInfo();
+		m_robotContainer.m_climber.getRot();
+		SmartDashboard.putNumber("TURRET ROT", m_robotContainer.m_turret.getDegrees());
+	
 	//	m_robotContainer.tempspeed =  SmartDashboard.getNumber("SHOOTER SPEED", 0);
 		/*SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
 		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_RightEncoder.getDistance());

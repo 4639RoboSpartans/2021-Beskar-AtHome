@@ -26,7 +26,7 @@ public class KickerSys extends SubsystemBase {
 
 	public void setKicker(double num) {
 		currentSpeed = num;
-		kicker.set(num);
+		kicker.setVoltage(num*11.00);
 	}
 	public boolean uptoSpeed(){
 		return currentSpeed>0;
