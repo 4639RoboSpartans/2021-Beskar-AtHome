@@ -106,6 +106,7 @@ public class Robot extends TimedRobot {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		encoder1.setDistancePerPulse(diameter * Math.PI / 2048.0);
 		encoder1.reset();
+		m_robotContainer.m_shroud.ContPID(true); 
 
 		//Reset the encoders on the shroud encoder
 		m_robotContainer.getShroud().resetEncoder();
@@ -135,9 +136,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("TURRET ROT", m_robotContainer.m_turret.getDegrees());
 	
 	//	m_robotContainer.tempspeed =  SmartDashboard.getNumber("SHOOTER SPEED", 0);
-		/*SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
+		SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
 		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_RightEncoder.getDistance());
-		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());*/
+		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());
 	}
 
 	@Override

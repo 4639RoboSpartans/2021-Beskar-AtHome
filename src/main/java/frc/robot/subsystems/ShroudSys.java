@@ -25,6 +25,7 @@ public class ShroudSys extends SubsystemBase {
 	public final Encoder shroudEncoder;
 	public double positionDesired;
 	private double pidOut;
+	private boolean tf = false;
 	public ShroudSys() {
 		this.shroud = new WPI_VictorSPX(Constants.SHROUD_CAN);
 		shroud.configFactoryDefault();
@@ -47,7 +48,9 @@ public class ShroudSys extends SubsystemBase {
 	public double getDegrees() {
 		return shroudEncoder.getDistance();
 	}
-
+	public void setPos(double posDesired){
+		positionDesired = posDesired;
+	}
 	public void setDesiredPosition(double pos) {
 		if (pos == 0)
 			positionDesired = Constants.SHROUD_PRESET_0;
@@ -74,10 +77,13 @@ public class ShroudSys extends SubsystemBase {
 		/*SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);*/
+		if(tf)
 		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 		
 	}
-
+	public void ContPID(boolean tf){
+		this.tf = tf;
+	}
 	public void resetEncoder()
 	{
 		shroudEncoder.reset();

@@ -55,7 +55,7 @@ public class RobotContainer {
 	private final ShooterSys m_shooter= new ShooterSys();
 	private final KickerSys m_kicker= new KickerSys();
 	public final TurretSys m_turret= new TurretSys();
-	private final ShroudSys m_shroud = new ShroudSys();
+	public final ShroudSys m_shroud = new ShroudSys();
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;
@@ -72,6 +72,7 @@ public class RobotContainer {
 		 () -> m_climber.setClimber(0), m_climber));
 		 m_climber.setPistons(DoubleSolenoid.Value.kReverse);
 		
+
 		m_drive.setDefaultCommand(new ManualDriveCmd(m_drive, m_oi));
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
@@ -188,11 +189,13 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		return new ParallelCommandGroup(
-				new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive)
-						.withTimeout(1.5),
-				new Turret90Cmd(m_turret, 0), new ExecuteEndCommand(()->m_intake.setPivot(-0.5), ()->m_intake.setPivot(0), m_intake).withTimeout(1.5))
-						.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, 3800),
-								new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(7));
+				new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.5),
+				new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(0.7), 
+				new ExecuteEndCommand(()->m_intake.setPivot(-0.5), ()->m_intake.setPivot(0), m_intake).withTimeout(1.5),
+				new ExecuteEndCommand(()->m_shroud.setShroud(0.3), ()->m_shroud.setShroud(0), m_shroud).withTimeout(0.76))
+				.andThen(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED).withTimeout(2))
+		.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED),
+								new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(3));
 	}
 
 	public void setDriveNeutralMode(NeutralMode mode) {

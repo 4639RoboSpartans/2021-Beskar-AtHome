@@ -9,6 +9,7 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShroudSys;
@@ -47,16 +48,9 @@ public class VisionAimCmd extends CommandBase {
 	@Override
 	//go to 10.46.39.11:5800 to see camera output and tune it
 		/*ToDo:
-		Properly set up cam settings(HCS)
-		finetune aiming and shooting(mostly, if not already, done) increase speed first for consistency and then pitch
-		fix reset B button
-		change deg offset from different distance
-		image spare radio
-		fix pitch value
-		fix shroud PID
+		bring extra cam for climber
+		finetune aiming and shooting(mostly, if not already, done) 
 		auto cam stream switch
-		update pi
-		reset pi default network
 		*/
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
@@ -77,12 +71,14 @@ public class VisionAimCmd extends CommandBase {
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
 				SmartDashboard.putBoolean("Spinning", true);
-				if(yaw<0){
+				double DesiredPos = yaw/0.008;
+				turret.setTurretPos(DesiredPos);
+				/*if(yaw<0){
 				turret.setTurret(Constants.KP_ROT_TURRET*yaw+Constants.CONSTANT_FORCE_TURRET);
 				}else
-				turret.setTurret(Constants.KP_ROT_TURRET*yaw-Constants.CONSTANT_FORCE_TURRET);
+				turret.setTurret(Constants.KP_ROT_TURRET*yaw-Constants.CONSTANT_FORCE_TURRET);*/
 			}else{
-				turret.setTurret(0);
+				turret.resetTurret();
 				SmartDashboard.putBoolean("Spinning",false);
 			}
 

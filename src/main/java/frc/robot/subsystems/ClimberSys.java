@@ -29,20 +29,20 @@ public class ClimberSys extends SubsystemBase {
 		leftClimber.configFactoryDefault();
 		leftClimber.setNeutralMode(NeutralMode.Brake);
 		leftClimber.setInverted(InvertType.InvertMotorOutput);
-		/*leftClimber.configReverseSoftLimitEnable(true);
+		leftClimber.configReverseSoftLimitEnable(true);
 		leftClimber.configForwardSoftLimitEnable(true);
-		leftClimber.configForwardSoftLimitThreshold(20_000);*/
+		leftClimber.configForwardSoftLimitThreshold(20000);
 
 		// Resuing Motor Controller for Shroud
 		this.rightClimber = new WPI_TalonSRX(Constants.RIGHT_CLIMBER_CAN);
-		rightClimber.setInverted(InvertType.FollowMaster);
+		rightClimber.setInverted(InvertType.InvertMotorOutput);
 		rightClimber.setSensorPhase(true);
 		rightClimber.configFactoryDefault();
 		rightClimber.setNeutralMode(NeutralMode.Brake);
-		rightClimber.follow(leftClimber);
-		/*rightClimber.configReverseSoftLimitEnable(true);
+		//rightClimber.follow(leftClimber);
+		rightClimber.configReverseSoftLimitEnable(true);
 		rightClimber.configForwardSoftLimitEnable(true);
-		rightClimber.configForwardSoftLimitThreshold(20_000);*/
+		rightClimber.configForwardSoftLimitThreshold(20000);
 	}
 
 	public void setPistons(DoubleSolenoid.Value value) {
@@ -52,8 +52,29 @@ public class ClimberSys extends SubsystemBase {
 
 	public void setClimber(double num) {
 		//SmartDashboard.putNumber("Climber power", num);
+		if(rightClimber.getSelectedSensorPosition()-leftClimber.getSelectedSensorPosition()>100){
+			if(num>0){
+				rightClimber.set(num*0.8);
+				leftClimber.set(num);
+			}else{
+				rightClimber.set(num);
+			leftClimber.set(num*0.8);
+			}
+			
+		}else if(leftClimber.getSelectedSensorPosition()-rightClimber.getSelectedSensorPosition()>100){
+			if(num>0){
+				rightClimber.set(num);
+				leftClimber.set(num*0.8);
+			}else{
+				rightClimber.set(num*0.8);
+			leftClimber.set(num);
+			}
+		}
+		else{
+		double ConstSpedDif = 0.9;
 		leftClimber.set(num);
-		
+		rightClimber.set(num*ConstSpedDif);
+		}
 	}
 	public void getRot(){
 		SmartDashboard.putNumber("LeftClimberEncoder", leftClimber.getSelectedSensorPosition());
