@@ -49,14 +49,13 @@ public class VisionAimCmd extends CommandBase {
 		/*ToDo:
 		Properly set up cam settings(HCS)
 		finetune aiming and shooting(mostly, if not already, done) increase speed first for consistency and then pitch
-		fix reset B button
 		change deg offset from different distance
-		image spare radio
 		fix pitch value
 		fix shroud PID
 		auto cam stream switch
-		update pi
-		reset pi default network
+		fix climber treshhold
+		change vision rot to degs and check if more constant
+		work on auton
 		*/
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
