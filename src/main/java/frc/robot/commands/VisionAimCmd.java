@@ -48,10 +48,8 @@ public class VisionAimCmd extends CommandBase {
 	//go to 10.46.39.11:5800 to see camera output and tune it
 		/*ToDo:
 		Properly set up cam settings(HCS)
-		finetune aiming and shooting(mostly, if not already, done) increase speed first for consistency and then pitch
-		change deg offset from different distance
-		fix pitch value
-		fix shroud PID
+		finetune aiming and shooting(mostly, if not already, done)
+		check consistent(kicker)
 		auto cam stream switch
 		fix climber treshhold
 		change vision rot to degs and check if more constant
