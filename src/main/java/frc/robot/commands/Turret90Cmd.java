@@ -12,20 +12,21 @@ import command.CommandBase;
 
 public class Turret90Cmd extends CommandBase {
 	private final TurretSys turret;
-
-	public Turret90Cmd(TurretSys turret) {
+	private double desiredPos;
+	public Turret90Cmd(TurretSys turret, double pos) {
 		this.turret = turret;
 		addRequirements(turret);
+		desiredPos = pos;
 	}
 
 	@Override
 	public void initialize() {
-		turret.setTurret(0.2);
+		turret.setTurretPos(desiredPos);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		turret.setTurret(0);
+		turret.setTurretPos(desiredPos);
 	}
 
 	@Override

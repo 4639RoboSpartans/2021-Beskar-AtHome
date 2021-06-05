@@ -39,6 +39,14 @@ public class TurretSys extends SubsystemBase {
 		}else
 			setTurret(Constants.KP_ROT_TURRET*(degs/25)-Constants.CONSTANT_FORCE_TURRET);
 	}
+	public void setTurretPos(double pos){
+		int posOffset = 0;
+		double degs = getDegrees()+posOffset;
+		if(degs<pos){
+			setTurret(Constants.KP_ROT_TURRET*(degs/25)+Constants.CONSTANT_FORCE_TURRET);
+		}else
+			setTurret(Constants.KP_ROT_TURRET*(degs/25)-Constants.CONSTANT_FORCE_TURRET);
+	}
 	@Override
 	public void periodic() {
 	}
