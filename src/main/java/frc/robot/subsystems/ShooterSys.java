@@ -43,7 +43,7 @@ public class ShooterSys extends SubsystemBase {
 
 	public double getSpeed() {
 		// rotations per second
-		return topShooter.getSelectedSensorVelocity() * (600.0 / 4096) ; //(4096.0 * 16.0 / 36.0) * 10;
+		return topShooter.getSelectedSensorVelocity() * (600.0 / 4096) ; //(4096.0 * 16.0 / 36.0) * 10; wheel speed
 	}
 
 	public boolean isAtSpeed() {
