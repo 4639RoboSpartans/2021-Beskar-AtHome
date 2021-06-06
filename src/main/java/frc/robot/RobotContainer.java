@@ -55,7 +55,7 @@ public class RobotContainer {
 	private final ShooterSys m_shooter= new ShooterSys();
 	private final KickerSys m_kicker= new KickerSys();
 	public final TurretSys m_turret= new TurretSys();
-	private final ShroudSys m_shroud = new ShroudSys();
+	public final ShroudSys m_shroud = new ShroudSys();
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;

@@ -23,7 +23,7 @@ import command.CommandBase;
 //BUTTON TO USE THIS PROGRAM IS THE LEFT BUMPER ON THE SECOND REMOTE, OR REMOTE #1
 public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
-	private final ShroudSys shroud;
+	private final ShroudSys shroud; 
 	private static final double CameraHeight = 0.6223;//assign values in meters
 	private static  double CameraPitch = 0.8727;//assign values in radians
 	private static final double TargetHeight = 2.49555;
