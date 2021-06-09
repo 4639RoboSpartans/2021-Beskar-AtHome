@@ -188,14 +188,15 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		return new ParallelCommandGroup(
-			new ExecuteEndCommand(() -> m_drive.setMotorVolts(-5, 5), () -> m_drive.setMotorVolts(0, 0), m_drive).withTimeout(0.5),
-			new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(0.7), //0.98
-			new ExecuteEndCommand(()->m_intake.setPivot(-0.3), ()->m_intake.setPivot(0), m_intake).withTimeout(0.3),
-			new SpoolShooterCmd(m_shooter, m_kicker, 1150).withTimeout(1.5)
-			/*new ExecuteEndCommand(()->m_shroud.setVolts(-0.5),()->m_shroud.setVolts(0), m_shroud).withTimeout(0.5)*/)
-
-	.andThen(new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, 1150),
-							new PushBallsCmd(m_hopper, m_intake, m_shooter)).withTimeout(3));
+			new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.5),
+			new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(0.7), 
+			new ExecuteEndCommand(()->m_intake.setPivot(-0.5), ()->m_intake.setPivot(0), m_intake).withTimeout(1.5),
+			new ExecuteEndCommand(()->m_shroud.setShroud(0.3), ()->m_shroud.setShroud(0), m_shroud).withTimeout(0.76))
+			.andThen(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED).withTimeout(2))
+	.andThen(
+		new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED),
+			new ExecuteEndCommand(()->m_intake.setIntake(0.4),()->m_intake.setIntake(0),m_intake),
+			new ExecuteEndCommand(()->m_hopper.setHopper(0.7), ()->m_hopper.setHopper(0),m_hopper).withTimeout(3)));
 	}
 
 	public void setDriveNeutralMode(NeutralMode mode) {
@@ -205,7 +206,7 @@ public class RobotContainer {
 	public ShroudSys getShroud()
 	{
 		return this.m_shroud;
-	} 		
+	}
 
 	public void resetDesiredPostition()
 	{

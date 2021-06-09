@@ -5,10 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 package frc.robot.commands;
+
 import frc.robot.subsystems.KickerSys;
 import frc.robot.subsystems.ShooterSys;
 
 import command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpoolShooterCmd extends CommandBase {
 	private final ShooterSys shooter;
@@ -26,13 +28,13 @@ public class SpoolShooterCmd extends CommandBase {
 	public void initialize() {
 		// code expects rps but rpm is easier to use
 		shooter.setShooter(rpm );
-		kicker.setKicker(0.83);
+		kicker.setKickerVolts(SmartDashboard.getNumber("KickerVolts", 11));//0.83
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		shooter.setShooter(0);
-		kicker.setKicker(0);
+		kicker.setKickerVolts(0);
 	}
 
 	@Override

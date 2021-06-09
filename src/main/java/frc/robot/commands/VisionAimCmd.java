@@ -65,8 +65,8 @@ public class VisionAimCmd extends CommandBase {
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
-		//setPitch(SmartDashboard.getNumber("PitchOffSet",0));
-		//setYaw(SmartDashboard.getNumber("yawoffSet",0));
+		setPitch(SmartDashboard.getNumber("PitchOffSet",pitchOff));
+		setYaw(SmartDashboard.getNumber("YawoffSet",yawOff));
 		if(Constants.STCam.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
