@@ -71,6 +71,7 @@ public class VisionAimCmd extends CommandBase {
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
 			double area = result.getBestTarget().getArea();
+			SmartDashboard.putNumber("Area of Target", area);
 			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
 										Math.toRadians(CameraPitch+((shroud.getDegrees()+0.0)/500)*360), Math.toRadians(pitch));
 			SmartDashboard.putNumber("distancetoTarget", distanceToTarget);
