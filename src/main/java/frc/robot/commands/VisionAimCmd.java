@@ -29,6 +29,8 @@ public class VisionAimCmd extends CommandBase {
 	private static final double TargetHeight = 2.49555;
 	private static final double DistTurMidToCam = 0.1397;//5.5 inches in meters
 	private double angleTolerance = 0;// Deadzone for the angle control loop
+	public double pitchOff = -30;
+	public double yawOff = -10;
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -44,7 +46,12 @@ public class VisionAimCmd extends CommandBase {
 		//double pitch = result.getBestTarget().getPitch();
 		
 	}
-
+	public void setPitch(double pitch){
+		pitchOff = pitch;
+	}
+	public void setYaw(double yaw){
+		yawOff = yaw;
+	}
 	@Override
 	//go to 10.46.39.11:5800 to see camera output and tune it
 		/*ToDo:
@@ -52,45 +59,51 @@ public class VisionAimCmd extends CommandBase {
 		finetune aiming and shooting(mostly, if not already, done) 
 		auto cam stream switch
 		*/
+
 	public void execute() {
 		var result = Constants.STCam.getLatestResult();
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
 		SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
+		//setPitch(SmartDashboard.getNumber("PitchOffSet",0));
+		//setYaw(SmartDashboard.getNumber("yawoffSet",0));
 		if(Constants.STCam.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
+			double area = result.getBestTarget().getArea();
 			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
 										Math.toRadians(CameraPitch+((shroud.getDegrees()+0.0)/500)*360), Math.toRadians(pitch));
 			SmartDashboard.putNumber("distancetoTarget", distanceToTarget);
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
 			//if(distanceToTarget)
-			yaw-=4 ;	 
+			yaw+=yawOff;
+			pitch+=pitchOff;	 
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
 				SmartDashboard.putBoolean("Spinning", true);
-				double DesiredPos = yaw/0.008;
-				turret.setTurretPos(DesiredPos);
-				/*if(yaw<0){
+				//double DesiredPos = yaw/0.008;
+				//turret.setTurretPos(DesiredPos);
+				if(yaw<0){
 				turret.setTurret(Constants.KP_ROT_TURRET*yaw+Constants.CONSTANT_FORCE_TURRET);
 				}else
-				turret.setTurret(Constants.KP_ROT_TURRET*yaw-Constants.CONSTANT_FORCE_TURRET);*/
+				turret.setTurret(Constants.KP_ROT_TURRET*yaw-Constants.CONSTANT_FORCE_TURRET);
 			}else{
 				turret.resetTurret();
 				SmartDashboard.putBoolean("Spinning",false);
 			}
 
 			//commenting RC 108-127 138 139 197-207 Shroudsys 52-63 71-78 39-45
-			pitch-=20;
-			if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
-				double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
+			shroud.pitch = pitch;
+			/*if(shroud.getDegrees()>-5&&shroud.getDegrees()<500&&Math.abs(pitch)>angleTolerance){
+				//double temp = shroud.getDegrees()+((pitch*-1)/360)*500;
 				//shroud.setShroud(KpRotShroud*pitch+constantForceShroud);
-				shroud.positionDesired = temp;
-			}else if(shroud.getDegrees()<0){
+				//shroud.positionDesired = temp;
+				
+			}*//*else if(shroud.getDegrees()<0){
 				shroud.resetEncoder();
-			}
+			}*/
 			/*else{
 				//shroud.setShroud(0);
 			}*/

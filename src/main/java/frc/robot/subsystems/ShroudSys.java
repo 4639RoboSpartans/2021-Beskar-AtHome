@@ -23,9 +23,10 @@ public class ShroudSys extends SubsystemBase {
 	private final WPI_VictorSPX shroud;
 	final PIDController pid;
 	public final Encoder shroudEncoder;
-	public double positionDesired;
+	public double positionDesired=0;
+	public double pitch = 0;
 	private double pidOut;
-	private boolean tf = false;
+	public boolean shroudPD = true;
 	public ShroudSys() {
 		this.shroud = new WPI_VictorSPX(Constants.SHROUD_CAN);
 		shroud.configFactoryDefault();
@@ -70,19 +71,18 @@ public class ShroudSys extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		pidOut = pid.calculate(getDegrees(), positionDesired) / 1000.0;
+		pidOut = pid.calculate(pitch, 0) / 100.0;
 
 		pid.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
 				SmartDashboard.getNumber("D", 0));
 		/*SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);*/
-		if(tf)
 		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 		
 	}
 	public void ContPID(boolean tf){
-		this.tf = tf;
+		this.shroudPD = tf;
 	}
 	public void resetEncoder()
 	{
@@ -90,5 +90,8 @@ public class ShroudSys extends SubsystemBase {
 	}
 	public void resetShroud(){
 		positionDesired = 0;
+	}
+	public void setVolts(double volts){
+		shroud.setVoltage(volts);
 	}
 }

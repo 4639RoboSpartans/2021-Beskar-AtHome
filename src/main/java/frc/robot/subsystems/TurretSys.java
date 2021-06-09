@@ -27,6 +27,9 @@ public class TurretSys extends SubsystemBase {
 	public void setTurret(double power) {
 		turret.set(power);
 	}
+	public void setTurretV(double v){
+		turret.setVoltage(v);
+	}
 
 	public double getDegrees() {
 		return turret.getSelectedSensorPosition()+11250;

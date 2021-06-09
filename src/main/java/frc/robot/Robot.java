@@ -10,6 +10,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.VisionAimCmd;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -99,6 +100,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		if(m_robotContainer.m_shroud.shroudPD){
+			VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud);
+			vs.execute();
+		}
 	}
 
 	@Override
@@ -107,7 +112,6 @@ public class Robot extends TimedRobot {
 		encoder1.setDistancePerPulse(diameter * Math.PI / 2048.0);
 		encoder1.reset();
 		m_robotContainer.m_shroud.ContPID(true); 
-
 		//Reset the encoders on the shroud encoder
 		m_robotContainer.getShroud().resetEncoder();
 		//m_robotContainer.resetDesiredPostition();

@@ -25,8 +25,8 @@ public class PushBallsCmd extends CommandBase {
 	}
 	@Override
 	public void initialize() {
-			hopper.setHopper(0.7);
-			intake.setIntake(0.4);
+			hopper.setHopper(0);
+			intake.setIntake(0);
 	}
 	@Override
 	public void execute() {

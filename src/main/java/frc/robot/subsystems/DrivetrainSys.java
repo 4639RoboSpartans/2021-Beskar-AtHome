@@ -79,6 +79,10 @@ public DrivetrainSys(){
 	public void arcadeDrive(double speed, double rotation) {
 		drive.arcadeDrive(speed, rotation);
 	}
+	public void setMotorVolts(double l, double r){
+		frontLeft.setVoltage(l);
+		frontRight.setVoltage(r);
+	}
 
 	public void stop() {
 		drive.stopMotor();
