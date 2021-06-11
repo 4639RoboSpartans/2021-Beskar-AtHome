@@ -19,10 +19,10 @@ import org.photonvision.PhotonCamera;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-	public static double KP_ROT_TURRET = 0.006;//0.007
+	public static double KP_ROT_TURRET = 0.007;//0.007
 	public static double CONSTANT_FORCE_TURRET = 0.11;//0.1
-	public static PhotonCamera STCam = new PhotonCamera("Aimbot9000");
 
+	public static PhotonCamera STCam = new PhotonCamera("Aimbot9000");
 	public static final String TURRET_CAMERA_NAME = "";
 	public static final double MAX_COMMAND_VOLTAGE = 10;
 	public static final double TRACK_WIDTH = 0.55982;

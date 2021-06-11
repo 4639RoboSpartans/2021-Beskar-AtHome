@@ -17,6 +17,7 @@ import frc.robot.subsystems.TurretSys;
 import frc.robot.OI;
 import frc.robot.Constants.Buttons;
 
+import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 
 import command.CommandBase;
@@ -29,8 +30,8 @@ public class VisionAimCmd extends CommandBase {
 	private static final double TargetHeight = 2.49555;
 	private static final double DistTurMidToCam = 0.1397;//5.5 inches in meters
 	private double angleTolerance = 0;// Deadzone for the angle control loop
-	public double pitchOff = -30;
-	public double yawOff = -10;
+	public double pitchOff = -34.372;
+	public double yawOff = 2.814;
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -65,13 +66,15 @@ public class VisionAimCmd extends CommandBase {
 		//Constants.STCam.setPipelineIndex(0);
 		//double KpRotShroud = -0.007;//need to adjust
 		//double constantForceShroud = 0.007;//need to adjust
-		//SmartDashboard.putBoolean("Target Aquired:", Constants.STCam.hasTargets());
-		setPitch(SmartDashboard.getNumber("PitchOffSet",pitchOff));
-		setYaw(SmartDashboard.getNumber("YawoffSet",yawOff));
-		if(Constants.STCam.hasTargets()){
+		//SmartDashboard.putBoolean("Target Aquired:", result!=null);
+		//setPitch(SmartDashboard.getNumber("PitchOffSet",pitchOff));
+		//setYaw(SmartDashboard.getNumber("YawoffSet",yawOff));
+		if(result.hasTargets()){
 			double yaw = result.getBestTarget().getYaw();
 			double pitch = result.getBestTarget().getPitch();
 			double area = result.getBestTarget().getArea();
+			yaw+=((-5/1.99)*area)+yawOff;
+			pitch+=((-10/1.99)*area)+pitchOff;
 			SmartDashboard.putNumber("Area of Target", area);
 			double distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(CameraHeight, TargetHeight, 
 										Math.toRadians(CameraPitch+((shroud.getDegrees()+0.0)/500)*360), Math.toRadians(pitch));

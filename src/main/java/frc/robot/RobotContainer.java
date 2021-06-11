@@ -76,10 +76,10 @@ public class RobotContainer {
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
 				m_hopper.setHopper(-0.2);
-				m_intake.setIntake(0.4);
+				m_intake.setIntake(0.5);
 			} else if (m_oi.getAxis(1, Constants.Axes.LEFT_TRIGGER) > 0) {
 				m_hopper.setHopper(0.2);
-				m_intake.setIntake(-0.4);
+				m_intake.setIntake(-0.5);
 				
 			} else {
 				m_hopper.setHopper(0);
@@ -138,7 +138,9 @@ public class RobotContainer {
 		// Auto Shoot balls
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
-		
+
+		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new ExecuteEndCommand(()->m_hopper.setHopper(-0.4), ()->m_hopper.setHopper(0),m_hopper));
+	
 		// Toggle Shroud Presets
 		//m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		//m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
