@@ -82,8 +82,8 @@ public class VisionAimCmd extends CommandBase {
 			double additionalAngle = Math.toDegrees((Math.atan(Math.toRadians(DistTurMidToCam)/Math.toRadians(distanceToTarget))));//contains the angle offset
 			SmartDashboard.putNumber("ANGlEoffset", additionalAngle);
 			//if(distanceToTarget)
-			yaw+=yawOff;
-			pitch+=pitchOff;	 
+			//yaw+=yawOff;
+			//pitch+=pitchOff;	 
 			if(Math.abs(yaw)>angleTolerance){
 				//turret.setTurret(KpRotTurret*yaw+constantForceTurret);
 				//check to see if there is a encoder and reset pos after turning
