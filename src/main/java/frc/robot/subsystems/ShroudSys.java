@@ -26,7 +26,6 @@ public class ShroudSys extends SubsystemBase {
 	public double positionDesired=0;
 	public double pitch = 0;
 	private double pidOut;
-	public boolean shroudPD = true;
 	public ShroudSys() {
 		this.shroud = new WPI_VictorSPX(Constants.SHROUD_CAN);
 		shroud.configFactoryDefault();
@@ -80,9 +79,6 @@ public class ShroudSys extends SubsystemBase {
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);*/
 		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 		
-	}
-	public void ContPID(boolean tf){
-		this.shroudPD = tf;
 	}
 	public void resetEncoder()
 	{

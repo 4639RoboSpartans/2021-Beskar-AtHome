@@ -9,7 +9,9 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.SpoolShooterCmd;
 import frc.robot.commands.VisionAimCmd;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -28,7 +30,8 @@ public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
 	public Encoder encoder1 = new Encoder(8, 9);
-	
+	public int AutonCaseSwitch = 0;
+	Timer time = new Timer();
 	private static final double diameter = 6.00;
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -87,6 +90,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
+		time.start();
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 		// schedule the autonomous command (example)
@@ -100,10 +104,26 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		if(m_robotContainer.m_shroud.shroudPD){
-			VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud);
-			vs.execute();
+		switch(AutonCaseSwitch){
+			case 0:{
+					if(time.get()>3.5&&time.get()<7.5){
+						VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud, m_robotContainer.m_photon);
+						SpoolShooterCmd sp = new SpoolShooterCmd(m_robotContainer.m_shooter, m_robotContainer.m_kicker, Constants.TEMPSPEED);
+						vs.execute();
+						m_robotContainer.m_intake.setIntake(0.4);
+						m_robotContainer.m_hopper.setHopper(0.7);
+						break;
+					}else{
+						AutonCaseSwitch++;
+					}
+			}
+			case 1:{
+					m_robotContainer.m_intake.setIntake(0.4);
+					m_robotContainer.m_hopper.setHopper(0.7);
+					break;
+			}
 		}
+		
 	}
 
 	@Override
@@ -111,7 +131,6 @@ public class Robot extends TimedRobot {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		encoder1.setDistancePerPulse(diameter * Math.PI / 2048.0);
 		encoder1.reset();
-		m_robotContainer.m_shroud.ContPID(true); 
 		//Reset the encoders on the shroud encoder
 		m_robotContainer.getShroud().resetEncoder();
 		//m_robotContainer.resetDesiredPostition();

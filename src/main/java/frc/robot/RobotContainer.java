@@ -27,6 +27,7 @@ import frc.robot.subsystems.DrivetrainSys;
 import frc.robot.subsystems.HopperSys;
 import frc.robot.subsystems.IntakeSys;
 import frc.robot.subsystems.KickerSys;
+import frc.robot.subsystems.PhotonVisionSys;
 import frc.robot.subsystems.ShooterSys;
 import frc.robot.subsystems.ShroudSys;
 import frc.robot.subsystems.TurretSys;
@@ -37,8 +38,6 @@ import command.Command;
 import command.ExecuteEndCommand;
 import command.InstantCommand;
 import command.ParallelCommandGroup;
-import command.ScheduleCommand;
-import command.WaitCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -50,17 +49,16 @@ import command.WaitCommand;
 public class RobotContainer {
 	public final ClimberSys m_climber= new ClimberSys();
 	public final DrivetrainSys m_drive= new DrivetrainSys();
-	private final IntakeSys m_intake= new IntakeSys();
-	private final HopperSys m_hopper = new HopperSys();
-	private final ShooterSys m_shooter= new ShooterSys();
-	private final KickerSys m_kicker= new KickerSys();
+	public final IntakeSys m_intake= new IntakeSys();
+	public final HopperSys m_hopper = new HopperSys();
+	public final ShooterSys m_shooter= new ShooterSys();
+	public final KickerSys m_kicker= new KickerSys();
 	public final TurretSys m_turret= new TurretSys();
 	public final ShroudSys m_shroud = new ShroudSys();
+	public final PhotonVisionSys m_photon = new PhotonVisionSys();
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	private int shroudPos = 0;
-	private final VisionAimCmd aim = new VisionAimCmd(m_turret, m_shroud);
-	private boolean cameraType = false;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -131,7 +129,7 @@ public class RobotContainer {
 	 */
 	private void configureButtonBindings() {
 		//auto aim
-		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(new VisionAimCmd(m_turret, m_shroud));
+		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(new VisionAimCmd(m_turret, m_shroud,m_photon));
 		//resetShroud pos
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_shroud.resetShroud(), m_shroud));
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_turret.resetTurret(), m_turret));
@@ -192,13 +190,13 @@ public class RobotContainer {
 		return new ParallelCommandGroup(
 			new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.5),
 			new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(0.7), 
-			new ExecuteEndCommand(()->m_intake.setPivot(-0.5), ()->m_intake.setPivot(0), m_intake).withTimeout(1.5),
-			new ExecuteEndCommand(()->m_shroud.setShroud(0.3), ()->m_shroud.setShroud(0), m_shroud).withTimeout(0.76))
-			.andThen(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED).withTimeout(2))
-	.andThen(
+			new ExecuteEndCommand(()->m_intake.setPivot(-0.5), ()->m_intake.setPivot(0), m_intake).withTimeout(1.5)
+			/*new ExecuteEndCommand(()->m_shroud.setShroud(0.3), ()->m_shroud.setShroud(0), m_shroud).withTimeout(0.76)*/)
+			.andThen(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED).withTimeout(2));
+	/*.andThen(
 		new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED),
 			new ExecuteEndCommand(()->m_intake.setIntake(0.4),()->m_intake.setIntake(0),m_intake),
-			new ExecuteEndCommand(()->m_hopper.setHopper(0.7), ()->m_hopper.setHopper(0),m_hopper).withTimeout(3)));
+			new ExecuteEndCommand(()->m_hopper.setHopper(0.7), ()->m_hopper.setHopper(0),m_hopper).withTimeout(3)))*/
 	}
 
 	public void setDriveNeutralMode(NeutralMode mode) {
