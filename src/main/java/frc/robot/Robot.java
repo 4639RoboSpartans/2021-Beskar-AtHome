@@ -91,8 +91,9 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		time.start();
+		SmartDashboard.putNumber("Time:",time.get());
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+		
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
@@ -104,26 +105,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch(AutonCaseSwitch){
-			case 0:{
-					if(time.get()>3.5&&time.get()<7.5){
-						VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud, m_robotContainer.m_photon);
-						SpoolShooterCmd sp = new SpoolShooterCmd(m_robotContainer.m_shooter, m_robotContainer.m_kicker, Constants.TEMPSPEED);
-						vs.execute();
-						m_robotContainer.m_intake.setIntake(0.4);
-						m_robotContainer.m_hopper.setHopper(0.7);
-					}else{
-						AutonCaseSwitch++;
-					}
-					break;
-			}
-			case 1:{
-					m_robotContainer.m_intake.setIntake(0);
-					m_robotContainer.m_hopper.setHopper(0);
-					break;
-			}
-		}
-		
+		//SmartDashboard.putNumber("Time:",time.get());
+		VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud, m_robotContainer.m_photon);
+		vs.pitch-=30;
+		vs.execute();
 	}
 
 	@Override

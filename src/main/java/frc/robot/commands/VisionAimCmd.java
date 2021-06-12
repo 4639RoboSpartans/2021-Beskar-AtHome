@@ -18,6 +18,8 @@ public class VisionAimCmd extends CommandBase {
 	private final TurretSys turret;
 	private final ShroudSys shroud; 
 	private final PhotonVisionSys photon;
+	public double yaw;
+	public double pitch;
 	public VisionAimCmd(TurretSys turret,ShroudSys shroud, PhotonVisionSys photon) {
 		this.turret = turret;
 		this.shroud = shroud;
@@ -27,9 +29,10 @@ public class VisionAimCmd extends CommandBase {
 	@Override
 	//go to 10.46.39.11:5800 to see camera output and tune it
 	public void execute() {
-		if(photon.hasTargets()){
-			double yaw = photon.getYaw();
-			double pitch = photon.getPitch();
+		var result = photon.PhotonCam.getLatestResult();
+		if(result.hasTargets()){
+			yaw = result.getBestTarget().getYaw()+(-2.51256)*result.getBestTarget().getArea()+photon.yawOffSet;
+			pitch = result.getBestTarget().getPitch()+(-5.02513)*result.getBestTarget().getArea()+photon.pitchOffSet;//-20
 			if(Math.abs(yaw)>0){
 				SmartDashboard.putBoolean("Spinning", true);
 				if(yaw<0){
