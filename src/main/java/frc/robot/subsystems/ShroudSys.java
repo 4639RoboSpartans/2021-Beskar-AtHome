@@ -84,9 +84,6 @@ public class ShroudSys extends SubsystemBase {
 	{
 		shroudEncoder.reset();
 	}
-	public void resetShroud(){
-		positionDesired = 0;
-	}
 	public void setVolts(double volts){
 		shroud.setVoltage(volts);
 	}

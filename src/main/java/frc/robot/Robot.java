@@ -112,14 +112,14 @@ public class Robot extends TimedRobot {
 						vs.execute();
 						m_robotContainer.m_intake.setIntake(0.4);
 						m_robotContainer.m_hopper.setHopper(0.7);
-						break;
 					}else{
 						AutonCaseSwitch++;
 					}
+					break;
 			}
 			case 1:{
-					m_robotContainer.m_intake.setIntake(0.4);
-					m_robotContainer.m_hopper.setHopper(0.7);
+					m_robotContainer.m_intake.setIntake(0);
+					m_robotContainer.m_hopper.setHopper(0);
 					break;
 			}
 		}
