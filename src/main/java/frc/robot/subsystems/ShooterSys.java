@@ -28,13 +28,13 @@ public class ShooterSys extends SubsystemBase {
 	public ShooterSys() {
 		this.topShooter = new WPI_TalonSRX(Constants.TOP_SHOOTER_CAN);
 		topShooter.configFactoryDefault();
-		topShooter.setNeutralMode(NeutralMode.Brake);
+		topShooter.setNeutralMode(NeutralMode.Coast);
 		topShooter.setSensorPhase(true);
 		topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100); //Timeout 100ms
 
 		this.bottomShooter = new WPI_VictorSPX(Constants.BOTTOM_SHOOTER_CAN);
 		bottomShooter.configFactoryDefault();
-		bottomShooter.setNeutralMode(NeutralMode.Brake);
+		bottomShooter.setNeutralMode(NeutralMode.Coast);
 		bottomShooter.follow(topShooter);
 
 		this.pid = new PIDController(Constants.SHOOTER_KP, 0, 0);
