@@ -92,6 +92,7 @@ public class Robot extends TimedRobot {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		time.start();
 		SmartDashboard.putNumber("Time:",time.get());
+		//m_robotContainer.m_shroud.resetEncoder();
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 		
 		// schedule the autonomous command (example)
@@ -106,9 +107,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		//SmartDashboard.putNumber("Time:",time.get());
-		VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud, m_robotContainer.m_photon);
-		vs.pitch-=30;
-		vs.execute();
+		/*VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud, m_robotContainer.m_photon);
+		vs.pitch-=40;
+		vs.execute();*/
 	}
 
 	@Override

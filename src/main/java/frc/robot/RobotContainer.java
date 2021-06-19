@@ -133,8 +133,10 @@ public class RobotContainer {
 		//resetShroud pos
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(-0.5),()->m_shroud.setShroud(0),m_shroud));
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_turret.resetTurret(), m_turret));
+		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_shroud.setShroud(0), m_shroud));
+		m_oi.getButton(1, Buttons.LEFT_BUMPER).whenReleased(new InstantCommand(()->m_shroud.setShroud(0)), true	);
 		// Auto Shoot balls
-		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED));
+		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED ));
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
 
 		m_oi.getButton(1, Buttons.X_BUTTON).whileHeld(new ExecuteEndCommand(()->m_intake.setIntake(0.4), ()->m_intake.setIntake(0), m_intake));
@@ -145,10 +147,13 @@ public class RobotContainer {
 		//m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		//m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
 
-		SmartDashboard.putString("DB/String 1", "RightPOV: " + m_oi.getPovButton(1, 90).get());
+		m_oi.getPovButton(1, 270).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(-0.7),()->m_shroud.setShroud(0), m_shroud));
+		m_oi.getPovButton(1, 90).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(0.7),()->m_shroud.setShroud(0), m_shroud));
+
+		/*SmartDashboard.putString("DB/String 1", "RightPOV: " + m_oi.getPovButton(1, 90).get());
 		SmartDashboard.putString("DB/String 2", "LeftPOV: " + m_oi.getPovButton(1, 270).get());
 		SmartDashboard.putString("DB/String 3", "UpPOV:" + m_oi.getPovButton(1, 0).get());
-		SmartDashboard.putString("DB/String 4", "DownPOV:" + m_oi.getPovButton(1, 180).get());
+		SmartDashboard.putString("DB/String 4", "DownPOV:" + m_oi.getPovButton(1, 180).get());*/
 		// Bring intake up
 		m_oi.getPovButton(1, 0)
 				.whileHeld(new ExecuteEndCommand(() -> m_intake.setPivot(0.7), () -> m_intake.setPivot(0), m_intake));
@@ -191,12 +196,12 @@ public class RobotContainer {
 	public Command getAutonomousCommand() {
 		return new ParallelCommandGroup(
 			new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.7),
-			new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(1), 
+			new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(0.7), 
 			new ExecuteEndCommand(()->m_intake.setPivot(-0.7), ()->m_intake.setPivot(0), m_intake).withTimeout(0.5)
 			/*new ExecuteEndCommand(()->m_shroud.setShroud(0.3), ()->m_shroud.setShroud(0), m_shroud).withTimeout(0.76)*/)
-			.andThen(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED).withTimeout(2))
+			.andThen(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED-100).withTimeout(2))
 	.andThen(
-		new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED),
+		new ParallelCommandGroup(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED-100),
 			new ExecuteEndCommand(()->m_intake.setIntake(0.4),()->m_intake.setIntake(0),m_intake),
 			new ExecuteEndCommand(()->m_hopper.setHopper(0.7), ()->m_hopper.setHopper(0),m_hopper).withTimeout(3)))
 	.andThen(
@@ -229,9 +234,9 @@ public class RobotContainer {
 		return this.m_shroud;
 	}
 
-	public void resetDesiredPostition()
+	/*public void resetDesiredPostition()
 	{
 		this.shroudPos = 0;
 		m_shroud.setDesiredPosition(shroudPos);
-	}
+	}*/
 }

@@ -28,7 +28,7 @@ public class SpoolShooterCmd extends CommandBase {
 	public void initialize() {
 		// code expects rps but rpm is easier to use
 		shooter.setShooter(rpm );
-		kicker.setKickerVolts(SmartDashboard.getNumber("KickerVolts", 10.8));//0.83
+		kicker.setKickerVolts(SmartDashboard.getNumber("KickerVolts", 10.5));//0.83
 	}
 
 	@Override

@@ -31,8 +31,9 @@ public class VisionAimCmd extends CommandBase {
 	public void execute() {
 		var result = photon.PhotonCam.getLatestResult();
 		if(result.hasTargets()){
-			yaw = result.getBestTarget().getYaw()+(-2.51256)*result.getBestTarget().getArea()+photon.yawOffSet;
-			pitch = result.getBestTarget().getPitch()+(-5.02513)*result.getBestTarget().getArea()+photon.pitchOffSet;//-20
+			yaw = result.getBestTarget().getYaw()+(-2.51256)*result.getBestTarget().getArea()+photon.yawOffSet-5;
+			SmartDashboard.putNumber("Yaw:",yaw);
+			pitch = result.getBestTarget().getPitch()+(-5.02513)*result.getBestTarget().getArea()+photon.pitchOffSet+5;//-20
 			if(Math.abs(yaw)>0){
 				SmartDashboard.putBoolean("Spinning", true);
 				if(yaw<0){

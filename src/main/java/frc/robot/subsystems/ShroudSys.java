@@ -51,7 +51,7 @@ public class ShroudSys extends SubsystemBase {
 	public void setPos(double posDesired){
 		positionDesired = posDesired;
 	}
-	public void setDesiredPosition(double pos) {
+	/*public void setDesiredPosition(double pos) {
 		if (pos == 0)
 			positionDesired = Constants.SHROUD_PRESET_0;
 		else if (pos == 1)
@@ -62,7 +62,7 @@ public class ShroudSys extends SubsystemBase {
 			positionDesired = Constants.SHROUD_PRESET_3;
 
 		SmartDashboard.putString("DB/String 0", "DesPos: " + positionDesired);
-	}
+	}*/
 
 	public void setShroud(double power) {
 		shroud.set(power);
@@ -71,13 +71,20 @@ public class ShroudSys extends SubsystemBase {
 	@Override
 	public void periodic() {
 		pidOut = pid.calculate(pitch, 0) / 100.0;
-
+		SmartDashboard.putNumber("Degrees:", getDegrees());
 		pid.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
 				SmartDashboard.getNumber("D", 0));
 		/*SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
 		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
 		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);*/
-		shroud.set(pidOut); //uncomment for future use FOR MANUAL CONTROL OF SHROUD
+		if(pidOut<0&&getDegrees()>10){
+			shroud.set(pidOut);
+		}else if(pidOut>0&&getDegrees()<490){
+			shroud.set(pidOut);
+		}else{
+			shroud.set(0);
+		}
+		 //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 		
 	}
 	public void resetEncoder()
