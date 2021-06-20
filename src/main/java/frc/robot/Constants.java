@@ -21,6 +21,9 @@ import org.photonvision.PhotonCamera;
 public final class Constants {
 	public static double KP_ROT_TURRET = 0.007;//0.007
 	public static double CONSTANT_FORCE_TURRET = 0.09;//0.1
+	public static final double TURRET_KP = 0;
+	public static final double TURRET_KI = 0;
+	public static final double TURRET_KD = 0;
 
 	public static final double MAX_COMMAND_VOLTAGE = 10;
 	public static final double TRACK_WIDTH = 0.55982;
@@ -40,18 +43,21 @@ public final class Constants {
 	public static final int SHROUD_CAN = 6; // the CAN 10 was rassigned to the Shroud.
 	public static final double SHROUD_KP = 0.85;//3.
 	public static final double SHROUD_KI = 0.08;//0.1
-	public static final double SHROUD_PRESET_0 = 0.0;
+	public static final double SHROUD_KD = 0;
+	/*public static final double SHROUD_PRESET_0 = 0.0;
 	public static final double SHROUD_PRESET_1 = 205.0;
 	public static final double SHROUD_PRESET_2 = 335.0;
-	public static final double SHROUD_PRESET_3 = 485.0;
+	public static final double SHROUD_PRESET_3 = 485.0;*/
 
 	public static final int TURRET_CAN = 7;
 	public static final int TOP_SHOOTER_CAN = 8;
 	public static final int BOTTOM_SHOOTER_CAN = 9;
 	public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.00384, 0.00116 * 3, 0.00128);
-	public static final double SHOOTER_KP = 0.15;
 	public static final double SHOOTER_PID_TOLERANCE = 0.5;
 	public static final double TEMPSPEED = 1650;//1500
+	public static final double SHOOTER_KP = 0.15;
+	public static final double SHOOTER_KI = 0;
+	public static final double SHOOTER_KD = 0;
 
 	public static final int INTAKE_WHEEL_CAN = 14;
 	public static final int INTAKE_PIVOT_CAN = 5;

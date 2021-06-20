@@ -37,7 +37,7 @@ public class ShooterSys extends SubsystemBase {
 		bottomShooter.setNeutralMode(NeutralMode.Coast);
 		bottomShooter.follow(topShooter);
 
-		this.pid = new PIDController(Constants.SHOOTER_KP, 0, 0);
+		this.pid = new PIDController(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
 		pid.setTolerance(3);
 	}
 

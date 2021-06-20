@@ -39,10 +39,6 @@ public class ShroudSys extends SubsystemBase {
 		this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, 0);
 		this.pid.setSetpoint(0);
 		pid.setTolerance(1);
-		SmartDashboard.putNumber("P", Constants.SHROUD_KP);
-		SmartDashboard.putNumber("I", Constants.SHROUD_KI);
-		SmartDashboard.putNumber("D", 0);
-		SmartDashboard.putNumber("SD", getDegrees());
 	}
 
 	public double getDegrees() {
@@ -71,12 +67,9 @@ public class ShroudSys extends SubsystemBase {
 	@Override
 	public void periodic() {
 		pidOut = pid.calculate(pitch, 0) / 100.0;
-		SmartDashboard.putNumber("Degrees:", getDegrees());
+		SmartDashboard.putNumber("Shroud Degrees:", getDegrees());
 		pid.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
 				SmartDashboard.getNumber("D", 0));
-		/*SmartDashboard.putString("DB/String 6", "ShroudPeriodic " + getDegrees());
-		SmartDashboard.putString("DB/String 7", "Setpoint: " + pid.atSetpoint());
-		SmartDashboard.putString("DB/String 8", "PidOut: " + pidOut);*/
 		if(pidOut<0&&getDegrees()>10){
 			shroud.set(pidOut);
 		}else if(pidOut>0&&getDegrees()<490){

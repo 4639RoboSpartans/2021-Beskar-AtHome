@@ -13,15 +13,19 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import command.SubsystemBase;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 public class TurretSys extends SubsystemBase {
 	private final WPI_TalonSRX turret;
-
+	private final PIDController pid;
 	public TurretSys() {
 		this.turret = new WPI_TalonSRX(Constants.TURRET_CAN);
 		turret.configFactoryDefault();
 		turret.setNeutralMode(NeutralMode.Brake);
 		turret.setInverted(InvertType.InvertMotorOutput);
+		pid = new PIDController(Constants.TURRET_KP, Constants.TURRET_KI, Constants.TURRET_KD);
+		pid.setSetpoint(0);
+		pid.setTolerance(0);
 	}
 
 	public void setTurret(double power) {
