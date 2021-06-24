@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
 	private RobotContainer m_robotContainer;
 	public Encoder encoder1 = new Encoder(8, 9);
 	public int AutonCaseSwitch = 0;
-	Timer time = new Timer();
 	private static final double diameter = 6.00;
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -90,8 +89,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
-		time.start();
-		SmartDashboard.putNumber("Time:",time.get());
 		//m_robotContainer.m_shroud.resetEncoder();
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 		
