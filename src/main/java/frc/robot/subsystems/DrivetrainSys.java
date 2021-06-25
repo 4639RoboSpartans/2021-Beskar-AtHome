@@ -27,7 +27,7 @@ public class DrivetrainSys extends SubsystemBase {
 	private final AHRS navx;
 	private final DifferentialDriveOdometry odometry;
 	private final DifferentialDrive drive;
-	public final Encoder m_LeftEncoder = new Encoder(0,1);
+	public final Encoder m_LeftEncoder = new Encoder(0,1, true);
 	public final Encoder m_RightEncoder = new Encoder(2,3);
 	private static final double diameter = 6.00;
 	/*

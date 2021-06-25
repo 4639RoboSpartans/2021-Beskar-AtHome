@@ -34,7 +34,7 @@ public class ShroudSys extends SubsystemBase {
 
 		//Encoder initialization
 		shroudEncoder = new Encoder(4,5, true);
-		shroudEncoder.reset();
+		//shroudEncoder.reset();
 		// PID Initialization
 		this.pid = new PIDController(Constants.SHROUD_KP, Constants.SHROUD_KI, Constants.SHROUD_KD);
 		this.pid.setSetpoint(0);

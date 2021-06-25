@@ -19,8 +19,8 @@ public class ManualDriveCmd extends CommandBase {
 	private final DrivetrainSys drive;
 	private final OI oi;
 
-	private final SlewRateLimiter speedLimiter = new SlewRateLimiter(5);
-	private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(5);
+	private final SlewRateLimiter speedLimiter = new SlewRateLimiter(10);//5
+	private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(10);
 
 	private final Encoder r_encoder;
 	private final Encoder l_encoder;
@@ -47,7 +47,7 @@ public class ManualDriveCmd extends CommandBase {
 		SmartDashboard.putNumber("Error", 0);
 
 		//If the right joystick is inside the deadzone run the direction correction to drive straight
-		if(oi.getAxis(0, Constants.Axes.RIGHT_STICK_X) == 0)
+		/*if(oi.getAxis(0, Constants.Axes.RIGHT_STICK_X) == 0)
 		{
     		double error = l_encoder.getRate() - r_encoder.getRate();
 			double turn_power = Constants.DRIVE_STRAIGHT_kP * error;
@@ -57,11 +57,11 @@ public class ManualDriveCmd extends CommandBase {
 				SmartDashboard.putNumber("Error", error);
 				SmartDashboard.putNumber("Turn Power", turn_power);
 		}
-		else{
+		else{*/
 		drive.arcadeDrive(speedLimiter.calculate(oi.getAxis(0, Constants.Axes.LEFT_STICK_Y)) * reduceSpeed,
 				rotationLimiter.calculate(oi.getAxis(0, Constants.Axes.RIGHT_STICK_X))
 						* Constants.ROTATION_SENSITIVITY);	
-		}
+		//}
 		
 	}
 
